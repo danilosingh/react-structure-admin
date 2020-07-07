@@ -1,0 +1,39 @@
+{
+  "name": "react-structure-admin",
+  "version": "1.0.20",
+  "description": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "build": "cross-env webpack -p --config ../../webpack.config.js",
+    "clean": "rimraf dist && rimraf node_modules && rimraf package-lock.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-dnd": "10.0.2",
+    "react-dnd-html5-backend": "10.0.2"
+  },
+  "devDependencies": {
+    "axios": "latest",
+    "react-dnd": "10.0.2",
+    "react-dnd-html5-backend": "10.0.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "connected-react-router": "^6.8.0",
+    "immutability-helper": "^3.1.1",
+    "moment": "^2.27.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5"
+  }
+}

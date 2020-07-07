@@ -1,0 +1,42 @@
+{
+  "name": "react-structure-admin-root",
+  "private": "true",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "module": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-loader": "8.1.0",
+    "cross-env": "^7.0.2",
+    "webpack": "4.42.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "devDependencies": {
+    "@ant-design/compatible": "^1.0.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "antd": "^4.3.4",
+    "babel-plugin-import": "^1.13.0",
+    "create-react-class": "^15.6.3",
+    "eslint-config-airbnb": "^18.1.0",
+    "immutability-helper": "^3.1.1",
+    "less": "^3.11.3",
+    "less-loader": "^6.1.1",
+    "moment": "^2.26.0",
+    "react-dnd": "10.0.2",
+    "react-dnd-html5-backend": "10.0.2",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.26.8",
+    "sass-loader": "^8.0.2"
+  }
+}
