@@ -1,6 +1,6 @@
 {
   "name": "react-structure-admin",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "",
   "publishConfig": {
     "access": "public"
@@ -20,20 +20,23 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dnd": "10.0.2",
-    "react-dnd-html5-backend": "10.0.2"
-  },
-  "devDependencies": {
-    "axios": "latest",
-    "react-dnd": "10.0.2",
-    "react-dnd-html5-backend": "10.0.2"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.29",
-    "connected-react-router": "^6.8.0",
+    "react-dnd-html5-backend": "10.0.2",
+    "@ant-design/compatible": "^1.0.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "antd": "^4.3.4",
+    "babel-plugin-import": "^1.13.0",
+    "create-react-class": "^15.6.3",
+    "eslint-config-airbnb": "^18.1.0",
     "immutability-helper": "^3.1.1",
-    "moment": "^2.27.0",
+    "less": "^3.11.3",
+    "less-loader": "^6.1.1",
+    "moment": "^2.26.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.26.8",
+    "sass-loader": "^8.0.2"
   }
 }
