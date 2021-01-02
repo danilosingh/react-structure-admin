@@ -46,12 +46,17 @@ const FormContextConsumer = (props) => {
   );
 };
 
-const useFormContext = () => {
+const useFormContext = (throwIsMissing = true) => {
   const value = useContext(FormContext);
 
-  if (!value) {
+  if (!value && throwIsMissing) {
     throw new Error('Missing FormContextProvider in its parent.');
   }
+
+  if (!throwIsMissing && !value) {
+    return {};
+  }
+  
   return value;
 };
 

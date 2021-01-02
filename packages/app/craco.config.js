@@ -1,7 +1,22 @@
 const path = require("path");
 const { getLoader, loaderByName } = require("@craco/craco");
 const absolutePath = path.join(__dirname, "../core");
+const CracoLessPlugin = require('craco-less');
+
 module.exports = {
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            modifyVars: { '@primary-color': '#1DA57A' },
+            javascriptEnabled: true,
+          },
+        },
+      },
+    },
+  ],
   webpack: {
     alias: {},
     plugins: [],

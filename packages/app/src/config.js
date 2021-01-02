@@ -1,6 +1,7 @@
 import React from 'react';
 import CourtList from './courts/CourtList';
-import ProceduralRiteList from './proceduralRites/ProceduralRiteList';
+import Home from './home/Home';
+
 
 export default {
   roles: [
@@ -22,10 +23,9 @@ export default {
       menu: { icon: 'university' }
     },
     {
-      path: '/proceduralrites',
-      title: 'Rito processual',
-      singularTitle: 'Rito',
-      component: (props) => <ProceduralRiteList {...props} />,
+      path: '/test',
+      title: 'Teste',      
+      component: (props) => <Home {...props} />,
       menu: { icon: 'university' }
     }
   ]

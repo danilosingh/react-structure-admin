@@ -23,19 +23,19 @@ const onSaveError = (data) => {
   return false;
 };
 
-export const fetch = (resource, params, onSuccess) => async (dispatch) => {
+export const fetch = (resource, params, onSuccess, tenant) => async (dispatch) => {
   await dispatchResouceAction({
     dispatch,
     resource,
     actionType: RESOURCE_FETCH,
     effect: async () => {
-      return api.fetch(resource, params);
+      return api.fetch(resource, params, tenant);
     },
     onSuccess
   });
 };
 
-export const get = (resource, id, queryParams, onSuccess) => async (
+export const get = (resource, id, queryParams, onSuccess, tenant) => async (
   dispatch
 ) => {
   await dispatchResouceAction({
@@ -43,42 +43,42 @@ export const get = (resource, id, queryParams, onSuccess) => async (
     resource,
     payload: queryParams,
     actionType: RESOURCE_GET_TO_EDIT,
-    effect: async () => api.get(resource, id),
+    effect: async () => api.get(resource, id, tenant),
     onSuccess
   });
 };
 
-export const create = (resource, data, onSuccess) => async (dispatch) => {
+export const create = (resource, data, onSuccess, tenant) => async (dispatch) => {
   await dispatchResouceAction({
     dispatch,
     resource,
     payload: data,
     actionType: RESOURCE_CREATE,
-    effect: async () => api.post(resource, data),
+    effect: async () => api.post(resource, data, tenant),
     onSuccess,
     onFail: onSaveError
   });
 };
 
-export const update = (resource, id, data, onSuccess) => async (dispatch) => {
+export const update = (resource, id, data, onSuccess, tenant) => async (dispatch) => {
   data.resourceId = id;
   await dispatchResouceAction({
     dispatch,
     resource,
     payload: data,
     actionType: RESOURCE_UPDATE,
-    effect: async () => api.put(`${resource}/:resourceId`, data),
+    effect: async () => api.put(`${resource}/:resourceId`, data, tenant),
     onSuccess,
     onFail: onSaveError
   });
 };
 
-export const remove = (resource, id, onSuccess) => async (dispatch) => {
+export const remove = (resource, id, onSuccess, tenant) => async (dispatch) => {
   await dispatchResouceAction({
     dispatch,
     resource,
     actionType: RESOURCE_DELETE,
-    effect: async () => api.del(resource, id),
+    effect: async () => api.del(resource, id, tenant),
     onSuccess
   });
 };

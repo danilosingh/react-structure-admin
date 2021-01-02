@@ -9,12 +9,11 @@ const DrawerForm = ({
   readOnly = false,
   maskClosable = true,
   onOk,
-  saveButtonName = 'Salvar',
   onCancel,
+  okButtonName = 'Salvar',
   auditedInfo,
   children,
   saving,
-
   beforeSubmit,
   size,
   onAfterCreate,
@@ -26,6 +25,8 @@ const DrawerForm = ({
 }) => {
   let { form } = rest;
   const { form: contextForm } = useFormContext();
+  const width = size && (size.includes('%') || size.includes('px')) ? size : undefined;
+  const sizeClass = size && !width ? size : null;
 
   if (!form) {
     form = contextForm;
@@ -63,7 +64,8 @@ const DrawerForm = ({
 
   return (
     <Drawer
-      className={`gx-drawer-form ${className} ${size}`}
+      width={width}
+      className={`gx-drawer-form ${className} ${sizeClass}`}
       title={title}
       onClose={onCancel}
       visible={visible}
@@ -103,7 +105,7 @@ const DrawerForm = ({
                 Cancelar
               </Button>
               <Button onClick={handleOnSubmit} type="primary" loading={saving}>
-                {saveButtonName}
+                {okButtonName}
               </Button>
             </>
           )}

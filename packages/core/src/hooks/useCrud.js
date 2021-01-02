@@ -8,6 +8,7 @@ import { defaultResourceState } from '../store/reducers/normalizeResourceState';
 
 const useCrud = ({
   resource,
+  tenant,
   fetch: customFetch,
   get: customGet,
   currentAttr = 'resourceToEdit',
@@ -86,10 +87,10 @@ const useCrud = ({
     (onSuccess) =>
       dispatch(
         customFetch
-          ? customFetch(resource, queryParams)
-          : resourceActions.fetch(resource, queryParams, onSuccess)
+          ? customFetch(resource, queryParams, tenant)
+          : resourceActions.fetch(resource, queryParams, onSuccess, tenant)
       ),
-    [dispatch, resource, customFetch, JSON.stringify(queryParams)] // eslint-disable-line react-hooks/exhaustive-deps
+    [dispatch, resource, tenant, customFetch, JSON.stringify(queryParams)] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const unload = useCallback(() => dispatch(resourceActions.unload(resource)), [
@@ -118,7 +119,7 @@ const useCrud = ({
       dispatch(
         customGet
           ? customGet(id, params)
-          : resourceActions.get(resource, id, params, onSuccess)
+          : resourceActions.get(resource, id, params, onSuccess, tenant)
       ),
     [dispatch, customGet, resource]
   );
@@ -129,24 +130,24 @@ const useCrud = ({
         resourceActions.create(
           resource,
           params,
-          onSuccess || (() => setQueryParams({ page: 1 }))
+          onSuccess || (() => setQueryParams({ page: 1 })), tenant
         )
       ),
-    [dispatch, resource, setQueryParams]
+    [dispatch, resource, tenant, setQueryParams]
   );
 
   const update = useCallback(
     (id, params, onSuccess) =>
-      dispatch(resourceActions.update(resource, id, params, onSuccess)),
-    [dispatch, resource]
+      dispatch(resourceActions.update(resource, id, params, onSuccess, tenant)),
+    [dispatch, resource, tenant]
   );
 
   const remove = useCallback(
     (id) =>
       dispatch(
-        resourceActions.remove(resource, id, () => setQueryParams({ page: 1 }))
+        resourceActions.remove(resource, id, () => setQueryParams({ page: 1 }), tenant)
       ),
-    [dispatch, resource, setQueryParams]
+    [dispatch, resource, tenant, setQueryParams]
   );
 
   const cancelEdit = useCallback(

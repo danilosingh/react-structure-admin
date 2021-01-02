@@ -20,10 +20,14 @@ const InternalCrud = (props) => {
     data: { items: dataSource, resourceToEdit },
     data,
     pagination,
+    headerComponent: HeaderComponent,
     editComponent: EditComponent,
     createComponent: CreateComponent,
-    fetch,
+    actionsComponent: ActionsComponent,
     filtersComponent: FiltersComponent,
+    searchComponent: SearchComponent,
+    searchPlaceHolder,
+    fetch,
     onBeforeSubmitFilters,
     setQueryParams,
     setCurrent,
@@ -135,19 +139,24 @@ const InternalCrud = (props) => {
         width: '150px',
         render: (text, record) => (
           <span key={record.id}>
-            <Button size="small" onClick={() => openToEdit(record)}>
-              Editar
-            </Button>
-            <Popconfirm
-              title="Deseja excluir?"
-              onConfirm={() => removeRecord(record.id)}
-              cancelText="Não"
-              okText="Sim"
-            >
-              <Button type="danger" size="small">
-                Excluir
-              </Button>
-            </Popconfirm>
+            {ActionsComponent && <ActionsComponent record={record} />}
+            {!ActionsComponent && (
+              <>
+                <Button size="small" onClick={() => openToEdit(record)}>
+                  Editar
+                </Button>
+                <Popconfirm
+                  title="Deseja excluir?"
+                  onConfirm={() => removeRecord(record.id)}
+                  cancelText="Não"
+                  okText="Sim"
+                >
+                  <Button type="danger" size="small">
+                    Excluir
+                  </Button>
+                </Popconfirm>
+              </>
+            )}
           </span>
         )
       }
@@ -168,58 +177,71 @@ const InternalCrud = (props) => {
 
   return (
     <>
-      <div className="gx-page-heading">
-        <div className="gx-page-heading-title">
-          <span className="ant-avatar ant-avatar-square ant-avatar-icon">
+      {HeaderComponent ? (
+        <HeaderComponent
+          {...props}
+          onSearchChange={onSearchChange}
+          openToCreate={openToCreate}
+          openToEdit={openToEdit}
+          isCreate={isCreate}
+        />
+      ) : (
+        <div className="gx-page-heading">
+          <div className="gx-page-heading-title">
             {menu && menu.icon && (
-              <FontAwesomeIcon className="icon" icon={menu.icon} />
-            )}
-          </span>
-          {title}
-        </div>
-        <div className="gx-page-heading-search">
-          <div className="gx-search-bar gx-lt-icon-search-bar-lg gx-module-search-bar gx-d-none gx-d-sm-block">
-            <div className="gx-form-group">
-              <input
-                className="ant-input gx-border-0"
-                type="search"
-                placeholder="Pesquisar..."
-                onChange={onSearchChange}
-              />
-              <span className="gx-search-icon gx-pointer">
-                <i className="icon icon-search" />
+              <span className="ant-avatar ant-avatar-square ant-avatar-icon">
+                <FontAwesomeIcon className="icon" icon={menu.icon} />
               </span>
+            )}
+            {title}
+          </div>
+          {SearchComponent ? (
+            <SearchComponent onSearchChange={onSearchChange} />
+          ) : (
+            <div className="gx-page-heading-search">
+              <div className="gx-search-bar gx-lt-icon-search-bar-lg gx-module-search-bar gx-d-none gx-d-sm-block">
+                <div className="gx-form-group">
+                  <input
+                    className="ant-input gx-border-0"
+                    type="search"
+                    placeholder={searchPlaceHolder ?? 'Pesquisar...'}
+                    onChange={onSearchChange}
+                  />
+                  <span className="gx-search-icon gx-pointer">
+                    <i className="icon icon-search" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="gx-page-heading-extra">
+            {FiltersComponent ? (
+              <div className="gx-page-heading-extra-filter">
+                <LinkButton
+                  iconName="filter"
+                  iconColor={showFilter ? '#545454' : '#CCC'}
+                  onClick={() => setShowFilter(!showFilter)}
+                />
+              </div>
+            ) : null}
+
+            <div className="gx-page-heading-extra-button">
+              <Button type="primary" onClick={() => openToCreate()}>
+                <PlusOutlined />
+                Novo
+              </Button>
             </div>
           </div>
+          <Filter
+            filtersComponent={FiltersComponent ? <FiltersComponent /> : null}
+            setQueryParams={setQueryParams}
+            queryParams={data.queryParams}
+            showFilter={showFilter}
+            onBeforeSubmitFilters={onBeforeSubmitFilters}
+          />
         </div>
-
-        <div className="gx-page-heading-extra">
-          {FiltersComponent ? (
-            <div className="gx-page-heading-extra-filter">
-              <LinkButton
-                iconName="filter"
-                iconColor={showFilter ? '#545454' : '#CCC'}
-                onClick={() => setShowFilter(!showFilter)}
-              />
-            </div>
-          ) : null}
-
-          <div className="gx-page-heading-extra-button">
-            <Button type="primary" onClick={() => openToCreate()}>
-              <PlusOutlined />
-              Novo
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <Filter
-        filtersComponent={FiltersComponent ? <FiltersComponent /> : null}
-        setQueryParams={setQueryParams}
-        queryParams={data.queryParams}
-        showFilter={showFilter}
-        onBeforeSubmitFilters={onBeforeSubmitFilters}
-      />
+      )}
 
       <div className="gx-container-crud">
         <Row>
@@ -238,6 +260,8 @@ const InternalCrud = (props) => {
               ) : (
                 React.cloneElement(children, {
                   dataSource,
+                  loading,
+                  handleTableChange,
                   openToCreate,
                   openToEdit,
                   removeRecord

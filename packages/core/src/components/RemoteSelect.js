@@ -57,7 +57,8 @@ class RemoteSelect extends React.Component {
       params = {},
       sorting,
       defaultSorting = true,
-      autoFocus
+      autoFocus,
+      tenant
     } = this.props;
     if (!pagination.hasNextPage) {
       return;
@@ -71,7 +72,7 @@ class RemoteSelect extends React.Component {
       sorting: sorting || (defaultSorting ? 'Name' : null),
       ...params
     };
-    api.fetch(resource, queryParams).then((response = {}) => {
+    api.fetch(resource, queryParams, null, tenant).then((response = {}) => {
       const { data = { result: {} } } = response;
       if (fetchId !== this.lastFetchId) {
         return;

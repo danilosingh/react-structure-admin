@@ -32,7 +32,7 @@ function getTenant() {
   return localStorage.getItem('tenantId');
 }
 
-export const getBaseUrl = () => {
+export const getBaseUrl = (tenant) => {
   const config = configManager.getConfig();
   const baseUrl = `${config.apiUrl}/{tenant}`;
 
@@ -40,21 +40,21 @@ export const getBaseUrl = () => {
     return baseUrl.replace('/{tenant}', '');
   }
 
-  return baseUrl.replace('{tenant}', getTenant() || config.multiTenant.host);
+  return baseUrl.replace('{tenant}', tenant || getTenant() || config.multiTenant.host);
 };
 
-export const getUrlFromResource = (resource) => {
-  return `${getBaseUrl()}${getResource(resource)}`;
+export const getUrlFromResource = (resource, tenant) => {
+  return `${getBaseUrl(tenant)}${getResource(resource)}`;
 };
 
-export async function get(resource, id, requestConfig) {
-  return http.get(`${getUrlFromResource(resource)}/${id}`, null, requestConfig);
+export async function get(resource, id, requestConfig, tenant) {
+  return http.get(`${getUrlFromResource(resource, tenant)}/${id}`, null, requestConfig);
 }
 
-export async function fetch(resource, params, requestConfig) {
+export async function fetch(resource, params, requestConfig, tenant) {
   const base = getResourceParams(resource, params);
   return http.get(
-    `${getUrlFromResource(base.resource)}`,
+    `${getUrlFromResource(base.resource, tenant)}`,
     base.params,
     requestConfig
   );
@@ -65,16 +65,16 @@ export async function safeFetch(resource, params, requestConfig) {
   return result.status !== 200 ? [] : result.data.result.items;
 }
 
-export async function post(resource, data) {
+export async function post(resource, data, tenant) {
   const base = getResourceParams(resource, data);
-  return http.post(`${getUrlFromResource(base.resource)}`, base.params);
+  return http.post(`${getUrlFromResource(base.resource, tenant)}`, base.params);
 }
 
-export async function put(resource, data) {
+export async function put(resource, data, tenant) {
   const base = getResourceParams(resource, data);
-  return http.put(`${getUrlFromResource(base.resource)}`, base.params);
+  return http.put(`${getUrlFromResource(base.resource, tenant)}`, base.params);
 }
 
-export async function del(resource, id) {
-  return http.del(`${getUrlFromResource(resource)}/${id}`);
+export async function del(resource, id, tenant) {
+  return http.del(`${getUrlFromResource(resource, tenant)}/${id}`);
 }

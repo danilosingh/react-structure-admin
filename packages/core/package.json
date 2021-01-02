@@ -1,6 +1,6 @@
 {
   "name": "react-structure-admin",
-  "version": "1.0.21",
+  "version": "1.0.25",
   "description": "",
   "publishConfig": {
     "access": "public"

@@ -12,22 +12,23 @@ module.exports = {
     library: '',
     libraryTarget: 'commonjs2'
   },
-  externals: {
-    react: 'commonjs react',
-    'react-dom': 'commonjs react-dom',
-    '@ant-design/compatible': 'commonjs @ant-design/compatible',
+  externals: [{
+    react: 'commonjs2 react',
+    'react-dom': 'commonjs2 react-dom',
+    '@ant-design/compatible': 'commonjs2 @ant-design/compatible',
     '@fortawesome/fontawesome-svg-core':
-      'commonjs @fortawesome/fontawesome-svg-core',
-    '@fortawesome/react-fontawesome': 'commonjs @fortawesome/react-fontawesome',
-    antd: 'commonjs antd',
-    'immutability-helper': 'commonjs immutability-helper',
-    moment: 'commonjs moment',
-    'react-dnd': 'commonjs react-dnd',
-    'react-dnd-html5-backend': 'commonjs react-dnd-html5-backend',
-    'react-redux': 'commonjs react-redux',
-    'react-router-dom': 'commonjs react-router-dom',
-    redux: 'commonjs redux'
+      'commonjs2 @fortawesome/fontawesome-svg-core',
+    '@fortawesome/react-fontawesome': 'commonjs2 @fortawesome/react-fontawesome',
+    'immutability-helper': 'commonjs2 immutability-helper',
+    moment: 'commonjs2 moment',
+    'react-dnd': 'commonjs2 react-dnd',
+    'react-dnd-html5-backend': 'commonjs2 react-dnd-html5-backend',
+    'react-redux': 'commonjs2 react-redux',
+    'react-router-dom': 'commonjs2 react-router-dom',
+    redux: 'commonjs2 redux'
   },
+  /^antd[.]*/,
+  ],
   resolve: {
     alias: aliases,
     extensions: ['.js', '.jsx', '.json'],

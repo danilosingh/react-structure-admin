@@ -15,6 +15,7 @@ import LinkButton from './LinkButton';
 import ConfirmButton from './ConfirmButton';
 import AuditedInfo from './AuditedInfo';
 import LazyComponent from './LazyComponent';
+import SearchValue from './SearchValue';
 
 export {
   Resource,
@@ -33,5 +34,6 @@ export {
   List,
   UserProfileImage,
   AuditedInfo,
-  LazyComponent
+  LazyComponent,
+  SearchValue
 };

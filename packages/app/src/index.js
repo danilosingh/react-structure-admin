@@ -14,6 +14,7 @@ import {
 } from 'react-structure-admin';
 
 import config from './config';
+import './App.less';
 
 // import App from './App';
 
@@ -23,7 +24,7 @@ const initialState = {
 };
 
 configManager.setConfig({
-  apiUrl: 'https://localhost:44330/api/v1',
+  apiUrl: 'https://localhost:44323/api/v1',
   multiTenant: { enabled: true, host: 'a' }
 });
 console.log(updateResourceState);
