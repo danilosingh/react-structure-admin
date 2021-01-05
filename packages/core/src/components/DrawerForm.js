@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Drawer } from 'antd';
 import { useFormContext } from './forms/formContext';
-import AuditedInfo from './AuditedInfo';
+import AuditInfo from './AuditInfo';
 
 const DrawerForm = ({
   title,
@@ -11,7 +11,7 @@ const DrawerForm = ({
   onOk,
   onCancel,
   okButtonName = 'Salvar',
-  auditedInfo,
+  auditInfo,
   children,
   saving,
   beforeSubmit,
@@ -91,7 +91,7 @@ const DrawerForm = ({
         {footerLeftRender ? (
           footerLeftRender()
         ) : (
-          <AuditedInfo {...auditedInfo} />
+          <AuditInfo {...auditInfo} />
         )}
 
         <div>

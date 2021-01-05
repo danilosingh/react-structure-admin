@@ -139,7 +139,13 @@ const InternalCrud = (props) => {
         width: '150px',
         render: (text, record) => (
           <span key={record.id}>
-            {ActionsComponent && <ActionsComponent record={record} />}
+            {ActionsComponent && (
+              <ActionsComponent
+                record={record}
+                openToEdit={openToEdit}
+                removeRecord={removeRecord}
+              />
+            )}
             {!ActionsComponent && (
               <>
                 <Button size="small" onClick={() => openToEdit(record)}>

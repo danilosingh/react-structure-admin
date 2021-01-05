@@ -36,9 +36,10 @@ const ModalEdit = (props) => {
     onAfterCreate,
     onAfterUpdate,
     showAuditedInfo = false,
+    labelAlign = 'left',
     size
   } = props;
-  let auditedInfo = null;
+  let auditInfo = null;
   let { data } = props;
 
   if (initialValues) {
@@ -46,7 +47,7 @@ const ModalEdit = (props) => {
   }
 
   if (showAuditedInfo && data) {
-    auditedInfo = {};
+    auditInfo = {};
     const {
       creationTime,
       lastModificationTime,
@@ -56,25 +57,25 @@ const ModalEdit = (props) => {
     } = data;
 
     if (!isNullOrEmpty(creatorId, 'guid')) {
-      auditedInfo.creatorId = creatorId;
+      auditInfo.creatorId = creatorId;
     }
 
     if (!isNullOrEmpty(creationTime, 'date')) {
-      auditedInfo.creationTime = formartDateTimeUTC(creationTime);
+      auditInfo.creationTime = formartDateTimeUTC(creationTime);
     }
 
     if (lastModificationTime) {
-      auditedInfo.lastModificationTime = formartDateTimeUTC(
+      auditInfo.lastModificationTime = formartDateTimeUTC(
         lastModificationTime
       );
     }
 
     if (lastModifierId) {
-      auditedInfo.lastModifierId = lastModifierId;
+      auditInfo.lastModifierId = lastModifierId;
     }
 
     if (dateLastAccess) {
-      auditedInfo.dateLastAccess = formartDateTimeUTC(dateLastAccess);
+      auditInfo.dateLastAccess = formartDateTimeUTC(dateLastAccess);
     }
   }
 
@@ -89,13 +90,13 @@ const ModalEdit = (props) => {
       closable={closable}
       readOnly={readOnly}
       onSubmit={onSubmit}
-      auditedInfo={auditedInfo}
+      auditInfo={auditInfo}
       onCancel={cancelEdit}
       onOk={handleOk}
       beforeSubmit={beforeSubmit}
       saving={saving}
     >
-      <Form labelAlign="left" colon={false} {...formItemLayout}>
+      <Form labelAlign={labelAlign} colon={false} {...formItemLayout}>
         <ResourceErrorAlert resource={resource} />
         {children(data)}
       </Form>

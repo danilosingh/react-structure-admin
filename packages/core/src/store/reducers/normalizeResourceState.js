@@ -16,7 +16,7 @@ export const defaultResourceState = {
   totalCount: 0,
   items: [],
   pagination: defaultResourcePagination,
-  isEditing: false,
+  editing: false,
   loading: false,
   readOnly: false,
   loaded: false,

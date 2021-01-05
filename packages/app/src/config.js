@@ -1,7 +1,7 @@
 import React from 'react';
 import CourtList from './courts/CourtList';
 import Home from './home/Home';
-
+import UserList from './users/UserList';
 
 export default {
   roles: [
@@ -20,13 +20,16 @@ export default {
       title: 'Tribunais de Justiça',
       singularTitle: 'Tribunal de Justiça',
       component: (props) => <CourtList {...props} />,
-      menu: { icon: 'university' }
     },
     {
       path: '/test',
-      title: 'Teste',      
+      title: 'Teste',
       component: (props) => <Home {...props} />,
-      menu: { icon: 'university' }
+    },
+    {
+      path: '/users',
+      title: 'Usuários',
+      component: (props) => <UserList {...props} />,
     }
   ]
 };

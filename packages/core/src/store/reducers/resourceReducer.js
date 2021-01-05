@@ -15,7 +15,9 @@ import {
   RESOURCE_SET_PARAMS_FINISHED,
   RESOURCE_GET_TO_EDIT,
   RESOURCE_UPDATE_FINISHED,
-  RESOURCE_CURRENT_UNLOAD
+  RESOURCE_CURRENT_UNLOAD,
+  RESOURCE_ACTION_EDIT,
+  RESOURCE_ACTION_CREATE
 } from '../actions/resourceActionTypes';
 import { normalizeResourceState } from './normalizeResourceState';
 import updateResourceState, { RESOURCE } from './updateResourceState';
@@ -39,6 +41,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
       [action.resource]: {
         ...state[action.resource],
         editing: !state[action.resource].readOnly,
+        action: RESOURCE_ACTION_EDIT, /* todo */
         saving: false,
         resourceToEdit: action.payload.data.result
       }
@@ -64,6 +67,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
       resourceToEdit: action.payload.data.result,
       saving: false,
       editing: false,
+      action: null,
       loaded: false
     }));
   },
@@ -85,7 +89,8 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
   [RESOURCE_CREATE_FINISHED](state, action) {
     return updateResourceState(state, action, RESOURCE, () => ({
       saving: false,
-      editing: false
+      editing: false,
+      action: null,
     }));
   },
 
@@ -120,6 +125,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         ...newState[action.resource],
         editing: true,
         saving: false,
+        action: RESOURCE_ACTION_CREATE,
         resourceToEdit: action.payload
       }
     };
@@ -164,6 +170,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
       [action.resource]: {
         ...newState[action.resource],
         editing: false,
+        action: null,
         saving: false,
         readOnly: false
       }

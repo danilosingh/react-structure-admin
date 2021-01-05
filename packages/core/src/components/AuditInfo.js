@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import User from './User';
 import PopoverHover from './PopoverHover';
 
-const AuditedInfo = ({
+const AuditInfo = ({
   creationTime,
   creatorId,
   lastModificationTime,
@@ -63,4 +63,4 @@ const AuditedInfo = ({
   );
 };
 
-export default AuditedInfo;
+export default AuditInfo;

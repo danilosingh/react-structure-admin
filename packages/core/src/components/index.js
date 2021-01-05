@@ -13,12 +13,15 @@ import User from './User';
 import UserProfileImage from './UserProfileImage';
 import LinkButton from './LinkButton';
 import ConfirmButton from './ConfirmButton';
-import AuditedInfo from './AuditedInfo';
+import AuditInfo from './AuditInfo';
 import LazyComponent from './LazyComponent';
 import SearchValue from './SearchValue';
+import Crud from './Crud';
+import DrawerEdit from './DrawerEdit';
 
 export {
   Resource,
+  Crud,
   RemoteSelect,
   ModalEdit,
   FormItem,
@@ -33,7 +36,8 @@ export {
   ConfirmButton,
   List,
   UserProfileImage,
-  AuditedInfo,
+  AuditInfo,
   LazyComponent,
-  SearchValue
+  SearchValue,
+  DrawerEdit
 };
