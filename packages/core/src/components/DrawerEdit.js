@@ -1,27 +1,30 @@
 import React from 'react';
 import { Form } from 'antd';
-import { useCrud } from '../hooks';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import { RESOURCE_ACTION_EDIT } from '../store/actions';
 
-const DrawerEdit = ({ children, size = 'sm', width, resource, ...rest }) => {
-  const {
-    cancelEdit,
-    post,
-    update,
-    data: { resourceToEdit: data, editing: visible, action },
-    saving: loading = false,
-    editing
-  } = useCrud({ resource });
+const DrawerEdit = ({
+  children,
+  cancelEdit,
+  post,
+  update,
+  visible,
+  action,
+  data,
+  size = 'sm',
+  width,
+  resource,
+  ...rest
+}) => {
 
   const [editingForm] = Form.useForm();
-  
+
   const save = () => {
     editingForm.validateFields().then((values) => {
       console.log({ ...data, ...values });
       if (action === RESOURCE_ACTION_EDIT) {
-        update(data.id,{ ...data, ...values });
+        update(data.id, { ...data, ...values });
       } else {
         post(values);
       }

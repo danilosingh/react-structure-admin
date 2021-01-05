@@ -13,11 +13,19 @@ const CrudContainer = (props) => {
   const history = useHistory();
 
   const {
-    data: { items: dataSource, resourceToEdit, action = RESOURCE_ACTION_CREATE },
+    data: {
+      items: dataSource,
+      resourceToEdit,
+      action = RESOURCE_ACTION_CREATE,
+      editing
+    },
     data,
     resource,
     fetch,
     unload,
+    cancelEdit,
+    post,
+    update,
     setQueryParams,
     pagination,
     headerComponent: HeaderComponent,
@@ -38,7 +46,6 @@ const CrudContainer = (props) => {
   } = props;
 
   const [searchForm] = Form.useForm();
-  const [editingForm] = Form.useForm();
 
   useEffect(() => {
     return () => unload();
@@ -105,13 +112,18 @@ const CrudContainer = (props) => {
 
   const editingRender = () => {
     if (!data.editing || (!CreateComponent && !EditComponent)) {
-      console.log('not editing');
-      return <></>;
+      return null;
     }
 
     const editingProps = {
       title: getEditingTitle(),
-      resource
+      resource,
+      cancelEdit,
+      post,
+      update,
+      visible: editing,
+      action,
+      data: resourceToEdit
     };
 
     if (isCreating() && CreateComponent) {
