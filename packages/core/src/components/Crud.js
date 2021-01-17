@@ -6,6 +6,7 @@ const Crud = ({
   path,
   resource,
   fetch,
+  get,
   match,
   fixedQueryParams,
   ...rest
@@ -25,7 +26,7 @@ const Crud = ({
       basePath={basePath}
       resource={resource}
       {...rest}
-      {...useCrud({ resource, fetch, fixedQueryParams })}
+      {...useCrud({ resource, fetch, get, fixedQueryParams })}
     />
   );
 };

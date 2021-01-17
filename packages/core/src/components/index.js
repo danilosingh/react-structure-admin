@@ -18,6 +18,7 @@ import LazyComponent from './LazyComponent';
 import SearchValue from './SearchValue';
 import Crud from './Crud';
 import DrawerEdit from './DrawerEdit';
+import DrawerContainer from './DrawerContainer';
 
 export {
   Resource,
@@ -39,5 +40,6 @@ export {
   AuditInfo,
   LazyComponent,
   SearchValue,
-  DrawerEdit
+  DrawerEdit,
+  DrawerContainer
 };

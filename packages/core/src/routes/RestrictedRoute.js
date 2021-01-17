@@ -8,8 +8,8 @@ const RestrictedRoute = ({ roles, ...rest }) => {
   const config = configManager.getConfig();
 
   if (!isAuthenticated) {
-    localStorage.removeItem('tenantId');
-    return <Redirect to="/signin" />;
+    localStorage.removeItem('tenantId'); //todo
+    return <Route {...rest} render={() => <Redirect to="/signin" />} />;
   }
 
   if (roles && !roles.find((c) => c === user.role || c === '*')) {

@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
+import { logDebug } from '../util/logger';
 import RestrictedRoute from './RestrictedRoute';
 import { buildPath } from './util/buildPath';
 
@@ -14,6 +15,8 @@ const WrappedRoute = (props) => {
   let { basePath } = props;
 
   basePath = buildPath(basePath, route.path);
+  
+  logDebug(`ROUTE: ${basePath}`);
 
   return route.redirectTo ? (
     <Route
@@ -57,7 +60,6 @@ const WrappedRoute = (props) => {
       {isContainer && route.routes && (
         <Routes
           key={`container_${basePath}`}
-          match={match}
           routes={route.routes}
           roles={route.roles || roles}
           basePath={basePath}
@@ -69,7 +71,7 @@ const WrappedRoute = (props) => {
 };
 
 const Routes = (props) => {
-  const { routes = [], roles = [], basePath = '', isContainer, match } = props;
+  const { routes = [], roles = [], basePath = '', isContainer } = props;
 
   return (
     <Switch>
@@ -81,7 +83,6 @@ const Routes = (props) => {
             roles={roles}
             basePath={basePath}
             isContainer={isContainer}
-            match={match}
           />
         ))}
       </Suspense>

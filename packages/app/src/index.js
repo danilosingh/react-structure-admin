@@ -25,7 +25,14 @@ const initialState = {
 
 configManager.setConfig({
   apiUrl: 'https://localhost:44323/api/v1',
-  multiTenant: { enabled: true, host: 'a' }
+  multiTenant: { enabled: true, host: 'a' },
+  layout: {
+    form: {
+      labelCol: null,
+      wrapperCol: null,
+      layout: 'vertical'
+    }
+  }
 });
 console.log(updateResourceState);
 const history = createBrowserHistory();

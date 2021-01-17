@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import { RESOURCE_ACTION_EDIT } from '../store/actions';
+import configManager from '../config/configManager';
 
 const DrawerEdit = ({
   children,
@@ -15,18 +16,26 @@ const DrawerEdit = ({
   size = 'sm',
   width,
   resource,
+  onSubmit,
   ...rest
 }) => {
-
   const [editingForm] = Form.useForm();
 
-  const save = () => {
+  const submit = () => {
     editingForm.validateFields().then((values) => {
-      console.log({ ...data, ...values });
+      let dataToSend = { ...data, ...values };
+
+      if (onSubmit) {
+        dataToSend = onSubmit(dataToSend);
+        if (!dataToSend) {
+          return;
+        }
+      }
+
       if (action === RESOURCE_ACTION_EDIT) {
-        update(data.id, { ...data, ...values });
+        update(data.id, dataToSend);
       } else {
-        post(values);
+        post(dataToSend);
       }
     });
   };
@@ -36,7 +45,7 @@ const DrawerEdit = ({
       width={width}
       size={size}
       resource={resource}
-      onOkClick={save}
+      onOkClick={submit}
       onBackClick={cancelEdit}
       okButtonText="Salvar"
       backButtonText="Cancelar"
@@ -44,7 +53,11 @@ const DrawerEdit = ({
       {...rest}
     >
       <ResourceErrorAlert resource={resource} />
-      {React.cloneElement(children, { form: editingForm, initialValues: data })}
+      {React.cloneElement(children, {
+        form: editingForm,
+        initialValues: data,
+        ...configManager.getConfig().layout.form
+      })}
     </DrawerContainer>
   );
 };

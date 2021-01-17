@@ -11,14 +11,16 @@ export default class configManager {
         wrapperCol: {
           xs: { span: 24 },
           sm: { span: 18 }
-        }
+        },
+        layout: 'horizontal'
       }
     },
     pageSize: 10,
     multiTenant: { enabled: false, host: 'a' },
     apiUrl: null,
     currentApp: APP_ADMIN,
-    roles: []
+    roles: [],
+    loggerLevel: "warn"
   };
 
   static setConfig(cfg) {

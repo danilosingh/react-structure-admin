@@ -5,6 +5,7 @@ import { formartDateTimeUTC } from '../util/formatters';
 import { isNullOrEmpty } from '../util';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import DrawerForm from './DrawerForm';
+import { Button } from 'antd';
 
 const defaultFormItemLayout = {
   labelCol: {
@@ -96,6 +97,7 @@ const ModalEdit = (props) => {
       beforeSubmit={beforeSubmit}
       saving={saving}
     >
+    
       <Form labelAlign={labelAlign} colon={false} {...formItemLayout}>
         <ResourceErrorAlert resource={resource} />
         {children(data)}

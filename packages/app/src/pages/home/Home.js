@@ -1,4 +1,4 @@
-import { Form } from 'antd';
+import { Col, Form, Input, Row, Select } from 'antd';
 import React from 'react';
 import { SearchValue } from 'react-structure-admin';
 
@@ -6,7 +6,6 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 }
 };
-
 
 export default function Home() {
   var [form] = Form.useForm();
@@ -27,6 +26,7 @@ export default function Home() {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
+      
       <Form.Item
         label="Username"
         name="username"
@@ -39,7 +39,7 @@ export default function Home() {
           columns={[
             {
               title: 'Cód',
-              dataIndex: 'id'              
+              dataIndex: 'id'
             },
             {
               title: 'Nome',
