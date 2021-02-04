@@ -13,7 +13,8 @@ export default class configManager {
           sm: { span: 18 }
         },
         layout: 'horizontal'
-      }
+      },
+      useSingularTitleOnEdit: true
     },
     pageSize: 10,
     multiTenant: { enabled: false, host: 'a' },

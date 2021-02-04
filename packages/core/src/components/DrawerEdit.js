@@ -17,11 +17,13 @@ const DrawerEdit = ({
   width,
   resource,
   onSubmit,
+  onBeforeBinding,
   ...rest
 }) => {
   const [editingForm] = Form.useForm();
-
+  
   const submit = () => {
+    editingForm.submit();
     editingForm.validateFields().then((values) => {
       let dataToSend = { ...data, ...values };
 
@@ -55,7 +57,7 @@ const DrawerEdit = ({
       <ResourceErrorAlert resource={resource} />
       {React.cloneElement(children, {
         form: editingForm,
-        initialValues: data,
+        initialValues: onBeforeBinding ? onBeforeBinding(data) : data,
         ...configManager.getConfig().layout.form
       })}
     </DrawerContainer>

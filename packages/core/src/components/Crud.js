@@ -4,7 +4,7 @@ import CrudContainer from './CrudContainer';
 
 const Crud = ({
   path,
-  resource,
+  resource,  
   fetch,
   get,
   match,

@@ -24,7 +24,7 @@ const initialState = {
 };
 
 configManager.setConfig({
-  apiUrl: 'https://localhost:44323/api/v1',
+  apiUrl: 'https://localhost:44323/v1',
   multiTenant: { enabled: true, host: 'a' },
   layout: {
     form: {

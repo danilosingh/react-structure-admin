@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 import * as authActions from '../store/actions';
 
-const useAuth = (keyGenerator = null) => {
+const useAuth = (getKey = null) => {
   const data = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const useAuth = (keyGenerator = null) => {
   let key = null;
 
   try {
-    key = keyGenerator ? keyGenerator(data) : data.user.id;
+    key = getKey ? getKey(data) : data.user.id;
   } catch (error) {
     key = 'auth.provider';
   }

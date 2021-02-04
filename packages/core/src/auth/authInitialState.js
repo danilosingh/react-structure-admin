@@ -18,7 +18,4 @@ const authInitialState = {
   accessToken
 };
 
-console.log('authInitialState:');
-console.log(authInitialState);
-
 export default authInitialState;

@@ -1,6 +1,6 @@
-const fieldsDefault = {
-  inputKey: 'id',
-  inputLabel: 'name'
+const defaultProps = {
+  key: 'id',
+  label: 'name'
 };
 
 const isFunction = (functionToCheck) => {
@@ -9,25 +9,25 @@ const isFunction = (functionToCheck) => {
   );
 };
 
-const getNormalizedData = (object, fields) => {
-  const { inputKey, inputLabel } = fields;
+const getNormalizedData = (value, props) => {
+  const { key, label } = props;
   return {
-    key: isFunction(inputKey) ? inputLabel(object) : object[inputKey],
-    label: isFunction(inputLabel) ? inputLabel(object) : object[inputLabel],
-    item: object
+    key: isFunction(key) ? label(value) : value[key],
+    label: isFunction(label) ? label(value) : value[label],
+    item: value
   };
 };
 
-const normalizeToSelect = (objects, fields = fieldsDefault) => {
-  if (!objects) {
+const normalizeToSelect = (value, props = defaultProps) => {
+  if (!value) {
     return undefined;
   }
 
-  if (Array.isArray(objects)) {
-    return objects.map((c) => getNormalizedData(c, fields));
+  if (Array.isArray(value)) {
+    return value.map((c) => getNormalizedData(c, props));
   }
 
-  return getNormalizedData(objects, fields);
+  return getNormalizedData(value, props);
 };
 
 export default normalizeToSelect;

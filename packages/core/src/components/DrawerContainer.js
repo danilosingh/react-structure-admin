@@ -12,6 +12,7 @@ const DrawerContainer = ({
   okButtonText = 'Confirmar',
   backButtonText = 'Voltar',
   loading,
+  saving,
   className = '',
   toolbarComponent: ToolbarComponent,
   size,
@@ -37,9 +38,6 @@ const DrawerContainer = ({
           position: 'absolute',
           right: 0,
           bottom: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
           width: '100%',
           borderTop: '1px solid #e9e9e9',
           padding: '10px 16px',
@@ -55,6 +53,7 @@ const DrawerContainer = ({
             onBackClick={onBackClick}
             backButtonText={backButtonText}
             loading={loading}
+            saving={saving}
           />
         ) : (
           <div>
@@ -67,7 +66,7 @@ const DrawerContainer = ({
                 <Button onClick={onBackClick} style={{ marginRight: 8 }}>
                   {backButtonText}
                 </Button>
-                <Button onClick={onOkClick} type="primary" loading={loading}>
+                <Button onClick={onOkClick} type="primary" loading={saving}>
                   {okButtonText}
                 </Button>
               </>

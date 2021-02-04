@@ -4,6 +4,7 @@ import { Form, Card, Row, Col, Button, Popconfirm, Table, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import { RESOURCE_ACTION_CREATE } from '../store/actions';
+import configManager from '../config/configManager';
 
 const ACTION_CREATE = 'ACTION_CREATE';
 const ACTION_EDIT = 'ACTION_EDIT';
@@ -17,7 +18,8 @@ const CrudContainer = (props) => {
       items: dataSource,
       resourceToEdit,
       action = RESOURCE_ACTION_CREATE,
-      editing
+      editing,
+      saving
     },
     data,
     resource,
@@ -28,6 +30,7 @@ const CrudContainer = (props) => {
     update,
     setQueryParams,
     pagination,
+    singularTitle,
     headerComponent: HeaderComponent,
     editComponent: EditComponent,
     createComponent: CreateComponent,
@@ -35,7 +38,6 @@ const CrudContainer = (props) => {
     filtersComponent: FiltersComponent,
     searchComponent: SearchComponent,
     showActions = true,
-    initialValues,
     getCustomEditingTitle,
     newButtonText = 'Novo',
     searchPlaceholder,
@@ -87,7 +89,14 @@ const CrudContainer = (props) => {
     if (getCustomEditingTitle) {
       return getCustomEditingTitle(action, resourceToEdit);
     }
-    return isCreating() ? 'Novo' : 'Editar';
+    let title = isCreating() ? 'Novo' : 'Editar';
+    if (
+      configManager.getConfig().layout.useSingularTitleOnEdit &&
+      singularTitle
+    ) {
+      title += ' ' + singularTitle.toLowerCase();
+    }
+    return title;
   };
 
   const initCreation = (record = {}) => {
@@ -122,6 +131,7 @@ const CrudContainer = (props) => {
       post,
       update,
       visible: editing,
+      saving,
       action,
       data: resourceToEdit
     };
@@ -261,6 +271,7 @@ const CrudContainer = (props) => {
                 React.cloneElement(children, {
                   dataSource,
                   loading,
+                  saving,
                   handleTableChange,
                   initCreation,
                   initEditing,

@@ -42,13 +42,13 @@ export default {
         console.log("props")
         console.log(props)
         return <AppContainer {...props} />
-      }
-      ,
-      roles: ['Admin'],
+      },            
       routes: [
         {
           path: '/',
           title: 'users',
+          resource: "users",
+          singularTitle: 'Usuário',
           exact: true,
           component: (props) => <UserList {...props} />,
           menu: { icon: 'tachometer-alt' }

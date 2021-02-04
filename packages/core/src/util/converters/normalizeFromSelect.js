@@ -1,26 +1,26 @@
-const fieldsDefault = {
-  outKey: 'id',
-  outLabel: 'name'
+const defaultProps = {
+  key: 'id',
+  label: 'name'
 };
 
-const getNormalizedData = (object, fields) => {
-  const { outKey, outLabel } = fields;
+const getNormalizedData = (value, props) => {
+  const { key, label } = props;
   return {
-    [outKey]: object.key,
-    [outLabel]: object.label
+    [key]: value.key,
+    [label]: value.label
   };
 };
 
-const normalizeFromSelect = (objects, fields = fieldsDefault) => {
-  if (!objects) {
+const normalizeFromSelect = (value, props = defaultProps) => {
+  if (!value) {
     return undefined;
   }
 
-  if (Array.isArray(objects)) {
-    return objects.map((c) => getNormalizedData(c, fields));
+  if (Array.isArray(value)) {
+    return value.map((c) => getNormalizedData(c, props));
   }
 
-  return getNormalizedData(objects, fields);
+  return getNormalizedData(value, props);
 };
 
 export default normalizeFromSelect;

@@ -1,37 +1,37 @@
 import React from 'react';
-import { Input, Form, Row, Select, Col } from 'antd';
-import { DrawerEdit } from 'react-structure-admin';
+import { Input, Form } from 'antd';
+import {
+  DrawerEdit,
+  RemoteSelect,
+  normalizeToSelect,
+  normalizeFromSelect
+} from 'react-structure-admin';
 
-const UserEdit = (props) => {
+
+const UserEdit = ({ data, ...rest }) => {
+
+  const submitHandle = (values) => {
+    return { ...values, role: normalizeFromSelect(values.role) };
+  };
+
+  const beforeBindingHandle = (values) => {
+    return { ...values, role: normalizeToSelect(values.role) };
+  };
+
   return (
-    <DrawerEdit {...props} size="md">
+    <DrawerEdit
+      {...rest}
+      data={data}
+      size="md"
+      onBeforeBinding={beforeBindingHandle}
+      onSubmit={submitHandle}
+    >
       <Form>
-        <Form.Item wrapperCol={18} label="Descrição" name="description" required>
-          <Input />
-        </Form.Item>
-        <Form.Item wrapperCol={6} label="Finalidade" name="reason" required>
-          <Select>
-            <Select.Option value="normal">Normal</Select.Option>
-            <Select.Option value="devolution">Devolução</Select.Option>
-            <Select.Option value="bonus">Bonificação</Select.Option>
-            <Select.Option value="shipping">Remessa</Select.Option>
-          </Select>
-        </Form.Item>      
-        <Row>
-          <Row>
-            <Col>
-              <Form.Item
-                label="Observações para nota fiscal"
-                name="additionalInformation"
-                required
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Row>
         <Form.Item label="Nome" name="name" required>
           <Input />
+        </Form.Item>
+        <Form.Item label="Papel" name="role" required>
+          <RemoteSelect resource="roles" fethOnMount={false} />
         </Form.Item>
       </Form>
     </DrawerEdit>
