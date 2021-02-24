@@ -19,6 +19,11 @@ import SearchValue from './SearchValue';
 import Crud from './Crud';
 import DrawerEdit from './DrawerEdit';
 import DrawerContainer from './DrawerContainer';
+import {
+  CrudEditContext,
+  CrudEditContextProvider,
+  useCrudEditContext
+} from './CrudEditContext';
 
 export {
   Resource,
@@ -41,5 +46,8 @@ export {
   LazyComponent,
   SearchValue,
   DrawerEdit,
-  DrawerContainer
+  DrawerContainer,
+  CrudEditContext,
+  CrudEditContextProvider,
+  useCrudEditContext
 };

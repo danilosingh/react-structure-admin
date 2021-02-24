@@ -5,9 +5,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import { RESOURCE_ACTION_CREATE } from '../store/actions';
 import configManager from '../config/configManager';
+import { CrudEditContextProvider } from './CrudEditContext';
 
-const ACTION_CREATE = 'ACTION_CREATE';
-const ACTION_EDIT = 'ACTION_EDIT';
+const CrudEditWrapper = ({
+  action,
+  editComponent: EditComponent,
+  createComponent: CreateComponent,
+  ...rest
+}) => {
+  const [form] = Form.useForm();
+  return (
+    <CrudEditContextProvider form={form}>
+      {action === RESOURCE_ACTION_CREATE && CreateComponent ? (
+        <CreateComponent action={action} {...rest} />
+      ) : (
+        <EditComponent action={action} {...rest} />
+      )}
+    </CrudEditContextProvider>
+  );
+};
 
 const CrudContainer = (props) => {
   const [delayedSearch, setDelayedSearch] = useState(null);
@@ -133,13 +149,12 @@ const CrudContainer = (props) => {
       visible: editing,
       saving,
       action,
-      data: resourceToEdit
+      data: resourceToEdit,
+      createComponent: CreateComponent,
+      editComponent: EditComponent
     };
-
-    if (isCreating() && CreateComponent) {
-      return <CreateComponent {...editingProps} />;
-    }
-    return <EditComponent {...editingProps} />;
+    console.log(editingProps);
+    return <CrudEditWrapper {...editingProps} />;
   };
 
   const handleTableChange = (tablePagination) => {

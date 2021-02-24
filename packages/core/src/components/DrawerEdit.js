@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form } from 'antd';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import { RESOURCE_ACTION_EDIT } from '../store/actions';
 import configManager from '../config/configManager';
+import { useCrudEditContext } from './CrudEditContext';
 
 const DrawerEdit = ({
   children,
@@ -20,8 +20,8 @@ const DrawerEdit = ({
   onBeforeBinding,
   ...rest
 }) => {
-  const [editingForm] = Form.useForm();
-  
+  const { form: editingForm } = useCrudEditContext();
+
   const submit = () => {
     editingForm.submit();
     editingForm.validateFields().then((values) => {

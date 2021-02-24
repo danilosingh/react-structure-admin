@@ -25,6 +25,9 @@ module.exports = {
     'react-dnd-html5-backend': 'commonjs2 react-dnd-html5-backend',
     'react-redux': 'commonjs2 react-redux',
     'react-router-dom': 'commonjs2 react-router-dom',
+    'css-loader': 'commonjs2 css-loader',
+    'style-loader': 'commonjs2 style-loader',
+    'sass-loader': 'commonjs2 sass-loader',
     redux: 'commonjs2 redux'
   },
   /^antd[.]*/,

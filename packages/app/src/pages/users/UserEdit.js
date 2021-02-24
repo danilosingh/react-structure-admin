@@ -6,7 +6,7 @@ import {
   normalizeToSelect,
   normalizeFromSelect
 } from 'react-structure-admin';
-
+import Address from '../../components/Address';
 
 const UserEdit = ({ data, ...rest }) => {
 
@@ -17,6 +17,9 @@ const UserEdit = ({ data, ...rest }) => {
   const beforeBindingHandle = (values) => {
     return { ...values, role: normalizeToSelect(values.role) };
   };
+  const onChangeName = ({target}) => {
+    console.log(target.value);
+  }
 
   return (
     <DrawerEdit
@@ -28,11 +31,12 @@ const UserEdit = ({ data, ...rest }) => {
     >
       <Form>
         <Form.Item label="Nome" name="name" required>
-          <Input />
+          <Input onChange={onChangeName} />
         </Form.Item>
         <Form.Item label="Papel" name="role" required>
           <RemoteSelect resource="roles" fethOnMount={false} />
         </Form.Item>
+        <Address />
       </Form>
     </DrawerEdit>
   );
