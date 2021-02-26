@@ -11,6 +11,7 @@ const useCrud = ({
   tenant,
   fetch: customFetch,
   get: customGet,
+  cancelEdit: customCancelEdit,
   currentAttr = 'resourceToEdit',
   loading = false,
   useQueryStringParams = true,
@@ -130,7 +131,8 @@ const useCrud = ({
         resourceActions.create(
           resource,
           params,
-          onSuccess || (() => setQueryParams({ page: 1 })), tenant
+          onSuccess || (() => setQueryParams({ page: 1 })),
+          tenant
         )
       ),
     [dispatch, resource, tenant, setQueryParams]
@@ -145,13 +147,26 @@ const useCrud = ({
   const remove = useCallback(
     (id) =>
       dispatch(
-        resourceActions.remove(resource, id, () => setQueryParams({ page: 1 }), tenant)
+        resourceActions.remove(
+          resource,
+          id,
+          () => setQueryParams({ page: 1 }),
+          tenant
+        )
       ),
     [dispatch, resource, tenant, setQueryParams]
   );
 
   const cancelEdit = useCallback(
-    () => dispatch(resourceActions.cancelEdit(resource)),
+    () => {
+      return dispatch(
+        customCancelEdit
+          ? customCancelEdit(resource)
+          : resourceActions.cancelEdit(resource)
+      )
+    }   
+
+      ,
     [dispatch, resource]
   );
 

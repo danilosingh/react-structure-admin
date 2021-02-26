@@ -153,7 +153,7 @@ const CrudContainer = (props) => {
       createComponent: CreateComponent,
       editComponent: EditComponent
     };
-    console.log(editingProps);
+    
     return <CrudEditWrapper {...editingProps} />;
   };
 

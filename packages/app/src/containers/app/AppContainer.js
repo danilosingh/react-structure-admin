@@ -6,8 +6,6 @@ const { Content } = Layout;
 
 const AppContainer = (props) => {
   const { match, routes, roles, basePath } = props;
-  console.log("match")
-  console.log(match)
   return (
     <Layout className="gx-app-layout">
       <Layout>

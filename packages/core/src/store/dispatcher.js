@@ -32,6 +32,7 @@ export const createAction = (
   error = false,
   meta = null
 ) => {
+  alert(type);
   return {
     type,
     resource,

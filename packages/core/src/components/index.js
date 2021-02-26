@@ -6,6 +6,7 @@ import DragSortingTable from './DragSortingTable/DragSortingTable';
 import EditableFormTable from './EditableFormTable/EditableFormTable';
 import DrawerForm from './DrawerForm';
 import Edit from './Edit';
+import ResourceEdit from './ResourceEdit';
 import List from './List';
 import PopoverHover from './PopoverHover';
 import Filter from './Filter';
@@ -35,6 +36,7 @@ export {
   EditableFormTable,
   DrawerForm,
   Edit,
+  ResourceEdit,
   PopoverHover,
   Filter,
   User,

@@ -164,7 +164,6 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
 
   [RESOURCE_CANCEL_EDIT](state, action) {
     const newState = normalizeResourceState(state, action.resource);
-
     return {
       ...newState,
       [action.resource]: {

@@ -4,14 +4,14 @@ import {
   DrawerEdit,
   RemoteSelect,
   normalizeToSelect,
-  normalizeFromSelect
+  normalizeFromSelect,
+  ResourceEdit
 } from 'react-structure-admin';
+import { currentUserCancel } from '../../stores/users/userActions';
 
-const UserEdit = ({ data, ...rest }) => {
-
+const CustomUserEdit = ({ data, ...rest }) => {
   const submitHandle = (values) => {
-    if(values?.role){
-      
+    if (values?.role) {
     }
     return { ...values, role: normalizeFromSelect(values.role) };
   };
@@ -19,9 +19,9 @@ const UserEdit = ({ data, ...rest }) => {
   const beforeBindingHandle = (values) => {
     return { ...values, role: normalizeToSelect(values.role) };
   };
-  const onChangeName = ({target}) => {
+  const onChangeName = ({ target }) => {
     console.log(target.value);
-  }
+  };
 
   return (
     <DrawerEdit
@@ -42,4 +42,9 @@ const UserEdit = ({ data, ...rest }) => {
     </DrawerEdit>
   );
 };
-export default UserEdit;
+
+export default ResourceEdit.create(CustomUserEdit, {
+  resource: 'users',
+  currentAttr: 'currentUser',
+  cancelEdit: currentUserCancel
+});

@@ -24,7 +24,6 @@ class RemoteSelect extends React.Component {
     this.handleSearch = debounce(this.fetchData, 800);
     this.fethOnMount = props.fethOnMount;
     this.state = { ...initialState };
-    console.log(props);
   }
 
   componentDidMount() {
@@ -152,9 +151,7 @@ class RemoteSelect extends React.Component {
   render() {
     const { fetching, data, open } = this.state;
     const { optionRender, placeholder, style } = this.props;
-    // console.log(data);
-    // console.log("data");
-    // return <></>;
+    
     return (
       <Select
         {...this.props}

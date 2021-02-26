@@ -34,6 +34,10 @@ const DrawerEdit = ({
         }
       }
 
+      if (!action && data.id) {
+        action = RESOURCE_ACTION_EDIT;
+      }
+
       if (action === RESOURCE_ACTION_EDIT) {
         update(data.id, dataToSend);
       } else {

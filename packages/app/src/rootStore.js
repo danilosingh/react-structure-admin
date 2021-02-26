@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 import rootReducer from './rootReducer';
 
-export default (initialState, history) => {
+const rootStore = (initialState, history) => {
   const middlewares = [thunk, routerMiddleware(history)].filter(Boolean);
 
   const store = createStore(
@@ -13,3 +13,5 @@ export default (initialState, history) => {
   );
   return store;
 };
+
+export default rootStore;
