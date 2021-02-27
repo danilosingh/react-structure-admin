@@ -16,7 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.28",
     "@fortawesome/react-fontawesome": "0.1.11",
     "antd": "4.12.3",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "babel-loader": "8.1.0",
     "babel-plugin-import": "1.13.0",
     "create-react-class": "15.6.3",
