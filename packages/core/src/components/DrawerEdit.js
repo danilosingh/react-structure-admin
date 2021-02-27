@@ -14,16 +14,19 @@ const DrawerEdit = ({
   action,
   data,
   size = 'sm',
-  width,
   resource,
+  submit,
   onSubmit,
   onBeforeBinding,
   ...rest
 }) => {
   const { form: editingForm } = useCrudEditContext();
 
-  const submit = () => {
-    editingForm.submit();
+  const handleSubmit = () => {
+    if (!action) {
+      action = data.id ? RESOURCE_ACTION_EDIT : RESOURCE_ACTION_CREATE;
+    }
+
     editingForm.validateFields().then((values) => {
       let dataToSend = { ...data, ...values };
 
@@ -34,24 +37,23 @@ const DrawerEdit = ({
         }
       }
 
-      if (!action && data.id) {
-        action = RESOURCE_ACTION_EDIT;
-      }
-
-      if (action === RESOURCE_ACTION_EDIT) {
-        update(data.id, dataToSend);
+      if (submit) {
+        submit(values, action);
       } else {
-        post(dataToSend);
+        if (action === RESOURCE_ACTION_EDIT) {
+          update(data.id, dataToSend);
+        } else {
+          post(dataToSend);
+        }
       }
     });
   };
 
   return (
     <DrawerContainer
-      width={width}
       size={size}
       resource={resource}
-      onOkClick={submit}
+      onOkClick={handleSubmit}
       onBackClick={cancelEdit}
       okButtonText="Salvar"
       backButtonText="Cancelar"
