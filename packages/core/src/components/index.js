@@ -1,6 +1,7 @@
 import Resource from './Resource';
 import RemoteSelect from './RemoteSelect';
 import FormItem from './forms/FormItem';
+import FormItemWrap from './forms/FormItemWrap';
 import ModalEdit from './ModalEdit';
 import DragSortingTable from './DragSortingTable/DragSortingTable';
 import EditableFormTable from './EditableFormTable/EditableFormTable';
@@ -32,6 +33,7 @@ export {
   RemoteSelect,
   ModalEdit,
   FormItem,
+  FormItemWrap,
   DragSortingTable,
   EditableFormTable,
   DrawerForm,

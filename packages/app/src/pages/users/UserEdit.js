@@ -4,40 +4,54 @@ import {
   DrawerEdit,
   RemoteSelect,
   normalizeToSelect,
-  normalizeFromSelect
+  normalizeFromSelect,
+  FormItemWrap
 } from 'react-structure-admin';
+import Address from './Address';
 
 const UserEdit = ({ data, ...rest }) => {
-
   const submitHandle = (values) => {
-    if(values?.role){
-      
+    if (values?.role) {
+    }
+    if (values.address) {
+      values.address.city = normalizeFromSelect(values.address.city);
     }
     return { ...values, role: normalizeFromSelect(values.role) };
   };
 
   const beforeBindingHandle = (values) => {
+    if (values.address) {
+      values.address.city = normalizeToSelect(values.address.city, {
+        label: (c) => `${c.name} - ${c.state?.toUpperCase()}`
+      });
+    }
     return { ...values, role: normalizeToSelect(values.role) };
   };
-  const onChangeName = ({target}) => {
+  const onChangeName = ({ target }) => {
     console.log(target.value);
-  }
+  };
+  const handleSubmit = (data, action) => {
+    alert(action);
+    console.log(data);
+  };
 
   return (
     <DrawerEdit
       {...rest}
       data={data}
-      size="md"
+      size="500px"
+      // submit={handleSubmit}
       onBeforeBinding={beforeBindingHandle}
       onSubmit={submitHandle}
     >
-      <Form>
-        <Form.Item label="Nome" name="name" required>
-          <Input onChange={onChangeName} />
-        </Form.Item>
-        <Form.Item label="Papel" name="role" required>
+      <Form requiredMark={true}>
+        <FormItemWrap label="Nome" name="name" required>
+          <Input />
+        </FormItemWrap>
+        <FormItemWrap label="Papel" name="role">
           <RemoteSelect resource="roles" fethOnMount={false} />
-        </Form.Item>
+        </FormItemWrap>
+        <Address />
       </Form>
     </DrawerEdit>
   );

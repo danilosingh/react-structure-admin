@@ -12,7 +12,10 @@ export default class configManager {
           xs: { span: 24 },
           sm: { span: 18 }
         },
-        layout: 'horizontal'
+        layout: 'horizontal',
+        validateMessages: {
+          required: "${label} é obrigatório"         
+        }
       },
       useSingularTitleOnEdit: true
     },
