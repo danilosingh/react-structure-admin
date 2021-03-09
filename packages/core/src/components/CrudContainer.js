@@ -44,15 +44,10 @@ const CrudContainer = (props) => {
     cancelEdit,
     post,
     update,
+    queryParams,
     setQueryParams,
     pagination,
-    singularTitle,
-    headerComponent: HeaderComponent,
-    editComponent: EditComponent,
-    createComponent: CreateComponent,
-    actionsComponent: ActionsComponent,
-    filtersComponent: FiltersComponent,
-    searchComponent: SearchComponent,
+    singularTitle,    
     showActions = true,
     getCustomEditingTitle,
     newButtonText = 'Novo',
@@ -60,7 +55,12 @@ const CrudContainer = (props) => {
     onSearch,
     children,
     basePath,
-    showHeader = true
+    showHeader = true,
+    headerComponent: HeaderComponent,
+    editComponent: EditComponent,
+    createComponent: CreateComponent,
+    actionsComponent: ActionsComponent,
+    searchComponent: SearchComponent,
   } = props;
 
   const [searchForm] = Form.useForm();
@@ -224,6 +224,7 @@ const CrudContainer = (props) => {
           initCreation={initCreation}
           initEditing={initEditing}
           isCreate={isCreating}
+          queryParams={queryParams}
         />
       ) : (
         <div className="gx-page-heading">

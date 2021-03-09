@@ -201,6 +201,7 @@ const useCrud = ({
     pagination,
     setCurrent,
     paginationChanged,
+    queryParams,
     setQueryParams
   };
 };
