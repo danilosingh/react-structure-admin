@@ -19,7 +19,8 @@ import {
   USER_REPORT_FAIL,
   USER_REPORT_SEND,
   USER_REPORT_SEND_FINISHED,
-  USER_REPORT_INITIALIZE
+  USER_REPORT_INITIALIZE,
+  USER_CHANGE_NAME
 } from './userActions';
 
 const userReducer = createResourceReducer(USER, [], {
@@ -33,6 +34,16 @@ const userReducer = createResourceReducer(USER, [], {
   [USER_SAVE_PASSWORD](state, action) {
     return updateResourceState(state, action, RESOURCE, () => ({
       loading: true
+    }));
+  },
+
+  [USER_CHANGE_NAME](state, action) {
+    return updateResourceState(state, action, RESOURCE, (resource) => ({
+      [RECORD_FIELD]: {
+        ...resource[RECORD_FIELD],
+        name: action.payload.name
+      },
+      loading: false
     }));
   },
 

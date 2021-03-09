@@ -1,4 +1,5 @@
 import { dispatcher, api } from 'react-structure-admin';
+import { RESOURCE_FETCH } from 'react-structure-admin';
 
 export const USER = 'USER';
 export const USER_UPDATE_PASSWORD = 'USER_UPDATE_PASSWORD';
@@ -16,7 +17,26 @@ export const USER_REPORT_CANCEL = 'USER_REPORT_CANCEL';
 export const USER_REPORT_SEND = 'USER_REPORT_SEND';
 export const USER_REPORT_FAIL = 'USER_REPORT_FAIL';
 export const USER_REPORT_SEND_FINISHED = 'USER_REPORT_SEND_FINISHED';
+export const USER_CHANGE_NAME = 'USER_CHANGE_NAME';
 
+
+export const chanceName = () => (dispatch) => {
+  dispatch(
+    dispatcher.createAction(USER_CHANGE_NAME, 'users', { name: 'José' })
+  );
+};
+
+export const customFetch = (resource, params, onSuccess, tenant) => async (dispatch) => {
+  await dispatcher.dispatchResouceAction({
+    dispatch,
+    resource,
+    actionType: RESOURCE_FETCH,
+    effect: async () => {
+      return api.fetch(resource, params, tenant);
+    },
+    onSuccess
+  });
+};
 
 export const currentUserUpdate = (data, onSuccess) => async (dispatch) => {
   await dispatcher.dispatchResouceAction({

@@ -14,7 +14,8 @@ export default class configManager {
         },
         layout: 'horizontal',
         validateMessages: {
-          required: "${label} é obrigatório"         
+          required: "${label} é obrigatório",
+          whitespace: "${label} é obrigatório"         
         }
       },
       useSingularTitleOnEdit: true

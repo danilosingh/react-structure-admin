@@ -21,6 +21,7 @@ class FormItemWrap extends React.Component {
       type,
       children,
       autoFocus,
+      whitespace,
       ...rest
     } = this.props;
 
@@ -29,6 +30,12 @@ class FormItemWrap extends React.Component {
     rules.push({
       required: required
     });
+
+    if (whitespace || (whitespace == undefined && required)) {
+      rules.push({
+        whitespace: true
+      });
+    }
 
     if (type === 'email') {
       rules.push({ type: 'email', message: 'E-mail inválido' });
