@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import { RESOURCE_ACTION_EDIT } from '../store/actions';
 import configManager from '../config/configManager';
 import { useCrudEditContext } from './CrudEditContext';
+import Form from 'antd/lib/form/Form';
 
 const DrawerEdit = ({
   children,
@@ -18,6 +19,8 @@ const DrawerEdit = ({
   submit,
   onSubmit,
   onBeforeBinding,
+  updateFormOnDataChanged = true,
+  onDataChanged,
   ...rest
 }) => {
   const { form: editingForm } = useCrudEditContext();
@@ -49,6 +52,16 @@ const DrawerEdit = ({
     });
   };
 
+  useEffect(() => {
+    var dataChanged = onBeforeBinding ? onBeforeBinding(data) : data;
+    if (updateFormOnDataChanged) {
+      editingForm.setFieldsValue(dataChanged);
+    }
+    if (onDataChanged) {
+      onDataChanged(dataChanged);
+    }
+  }, [updateFormOnDataChanged, data]);
+
   return (
     <DrawerContainer
       size={size}
@@ -63,7 +76,11 @@ const DrawerEdit = ({
       <ResourceErrorAlert resource={resource} />
       {React.cloneElement(children, {
         form: editingForm,
-        initialValues: onBeforeBinding ? onBeforeBinding(data) : data,
+        initialValues: !updateFormOnDataChanged
+          ? onBeforeBinding
+            ? onBeforeBinding(data)
+            : data
+          : undefined,
         ...configManager.getConfig().layout.form
       })}
     </DrawerContainer>
