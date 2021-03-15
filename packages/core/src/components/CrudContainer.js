@@ -47,7 +47,7 @@ const CrudContainer = (props) => {
     queryParams,
     setQueryParams,
     pagination,
-    singularTitle,    
+    singularTitle,
     showActions = true,
     getCustomEditingTitle,
     newButtonText = 'Novo',
@@ -56,11 +56,12 @@ const CrudContainer = (props) => {
     children,
     basePath,
     showHeader = true,
+    tableSize,
     headerComponent: HeaderComponent,
     editComponent: EditComponent,
     createComponent: CreateComponent,
     actionsComponent: ActionsComponent,
-    searchComponent: SearchComponent,
+    searchComponent: SearchComponent
   } = props;
 
   const [searchForm] = Form.useForm();
@@ -153,7 +154,7 @@ const CrudContainer = (props) => {
       createComponent: CreateComponent,
       editComponent: EditComponent
     };
-    
+
     return <CrudEditWrapper {...editingProps} />;
   };
 
@@ -213,6 +214,9 @@ const CrudContainer = (props) => {
   const { menu, title } = props;
   const loading = data ? data.loading : true;
   const columns = getColumns();
+  const {
+    size: defaultTableSize
+  } = configManager.getConfig().layout.list.table;
 
   return (
     <>
@@ -275,6 +279,7 @@ const CrudContainer = (props) => {
             <Card className="gx-card">
               {columns && columns.length > 0 ? (
                 <Table
+                  {...configManager.getConfig().layout.list.table}
                   loading={loading}
                   rowKey={(record) => record.id}
                   dataSource={dataSource}
@@ -282,12 +287,14 @@ const CrudContainer = (props) => {
                   onChange={handleTableChange}
                   columns={columns}
                   showHeader={showHeader}
+                  size={tableSize ?? defaultTableSize}
                 />
               ) : (
                 React.cloneElement(children, {
                   dataSource,
                   loading,
                   saving,
+                  pagination,
                   handleTableChange,
                   initCreation,
                   initEditing,

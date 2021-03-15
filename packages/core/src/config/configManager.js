@@ -14,9 +14,12 @@ export default class configManager {
         },
         layout: 'horizontal',
         validateMessages: {
-          required: "${label} é obrigatório",
-          whitespace: "${label} é obrigatório"         
+          required: '${label} é obrigatório',
+          whitespace: '${label} é obrigatório'
         }
+      },
+      list: {
+        table: { size: 'default' }
       },
       useSingularTitleOnEdit: true
     },
@@ -25,7 +28,7 @@ export default class configManager {
     apiUrl: null,
     currentApp: APP_ADMIN,
     roles: [],
-    loggerLevel: "warn"
+    loggerLevel: 'warn'
   };
 
   static setConfig(cfg) {

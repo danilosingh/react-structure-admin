@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
+import { formartOnlyNumber } from '../../util/formatters';
 
 class FormItemWrap extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class FormItemWrap extends React.Component {
       children,
       autoFocus,
       whitespace,
+      validateTrigger,
       ...rest
     } = this.props;
 
@@ -31,9 +33,26 @@ class FormItemWrap extends React.Component {
       required: required
     });
 
-    if (whitespace || (whitespace == undefined && required)) {
+    if (
+      children.type.name == 'Input' &&
+      (whitespace || (whitespace == undefined && required))
+    ) {
       rules.push({
         whitespace: true
+      });
+    }
+
+    if (type === 'phone' || type === 'mobilePhone') {
+      rules.push({
+        validator: (_, value) => {
+          const length = type === 'phone' ? 10 : 11;
+          const formattedValue = formartOnlyNumber(value);
+          if (formattedValue.length != length) {
+            return Promise.reject(new Error('Telefone inválido'));
+          }
+
+          return Promise.resolve();
+        }
       });
     }
 
@@ -51,7 +70,12 @@ class FormItemWrap extends React.Component {
       : children;
 
     return visible === false ? null : (
-      <Form.Item label={label} {...rest} rules={rules}>
+      <Form.Item
+        validateTrigger={validateTrigger}
+        label={label}
+        {...rest}
+        rules={rules}
+      >
         {control}
       </Form.Item>
     );

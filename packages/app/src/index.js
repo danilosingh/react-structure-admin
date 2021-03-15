@@ -16,7 +16,6 @@ import {
 import config from './config';
 import './App.less';
 
-
 // import App from './App';
 
 const initialState = {
@@ -32,7 +31,10 @@ configManager.setConfig({
       labelCol: null,
       wrapperCol: null,
       layout: 'vertical'
-    }
+    },
+    list: {
+      table: { size: 'middle' }
+    },
   }
 });
 console.log(updateResourceState);

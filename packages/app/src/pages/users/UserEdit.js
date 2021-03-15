@@ -17,7 +17,7 @@ const UserEdit = ({ data, ...rest }) => {
   const submitHandle = (values) => {
     if (values?.role) {
     }
-    if (values.address) {
+    if (values.address && values.address.city) {
       values.address.city = normalizeFromSelect(values.address.city);
     }
     return { ...values, role: normalizeFromSelect(values.role) };
