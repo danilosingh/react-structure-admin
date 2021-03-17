@@ -52,17 +52,20 @@ const SearchValue = ({
   const idColumn = columns.find((c) => c.isKey) ?? columns[0];
 
   const onSearch = (value, event) => {
-    if (event.currentTarget.classList.contains('anticon-search')) {
+    if (
+      event.currentTarget.classList.contains('ant-input-search-button') ||
+      event.currentTarget.classList.contains('anticon-search')
+    ) {
       setDrawerVisible(true);
-    } else if (allowClear) {
-      setValue(null);
     }
   };
 
   const setValue = (value) => {
-    if (onChange) {
-      onChange(value);
-    }
+    triggerChange(value);
+  };
+
+  const triggerChange = (value) => {
+    onChange?.(value);
   };
 
   const onCancel = () => {
@@ -114,6 +117,10 @@ const SearchValue = ({
   };
 
   const handleSubmit = debounce(() => {
+    if (pagination.current != 1) {
+      setPagination({ ...pagination, current: 1 });
+      return;
+    }
     fetchData();
   }, 600);
 
@@ -139,7 +146,7 @@ const SearchValue = ({
         onSearch={onSearch}
         allowClear={allowClear}
         value={value}
-        onChange={onChange}
+        onChange={triggerChange}
         {...rest}
       />
       <FormContextProvider>
@@ -170,7 +177,7 @@ const SearchValue = ({
                 }
               };
             }}
-            rowClassName={"gx-pointer"}
+            rowClassName={'gx-pointer'}
             pagination={pagination}
             onChange={handleTableChange}
             loading={loading}

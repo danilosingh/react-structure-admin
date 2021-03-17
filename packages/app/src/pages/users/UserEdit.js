@@ -5,15 +5,14 @@ import {
   RemoteSelect,
   normalizeToSelect,
   normalizeFromSelect,
-  FormItemWrap,
-  
+  FormItemWrap
 } from 'react-structure-admin';
 import Address from './Address';
 import { useDispatch } from 'react-redux';
 import { chanceName, customFetch } from '../../stores/users/userActions';
+import { SearchValue } from 'react-structure-admin';
 
 const UserEdit = ({ data, ...rest }) => {
-  
   const submitHandle = (values) => {
     if (values?.role) {
     }
@@ -32,6 +31,8 @@ const UserEdit = ({ data, ...rest }) => {
           label: (c) => `${c.name} - ${c.state?.toUpperCase()}`
         })
       },
+      name2: "Dan",
+      cnae: "123456",
       role: normalizeToSelect(values.role)
     };
   };
@@ -64,8 +65,30 @@ const UserEdit = ({ data, ...rest }) => {
         <FormItemWrap label="Nome" name="name" required>
           <Input />
         </FormItemWrap>
+        <FormItemWrap label="Nome" name="name2" required>
+          <Input />
+        </FormItemWrap>
         <FormItemWrap label="Papel" name="role">
           <RemoteSelect resource="roles" fethOnMount={false} />
+        </FormItemWrap>
+        <FormItemWrap label="Item da Lista de Serviço (LC 116/03)" name="cnae">
+          <SearchValue
+            drawerSize="40%"
+            allowClear={true}
+            title="Selecione o item da lista de serviço"
+            resource="products/federal-services"
+            columns={[
+              {
+                title: 'Código',
+                dataIndex: ['code'],
+                isKey: true
+              },
+              {
+                title: 'Descrição',
+                dataIndex: ['description']
+              }
+            ]}
+          />
         </FormItemWrap>
         <Address />
       </Form>
