@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form } from 'antd';
+import { Form, Input } from 'antd';
 import { formartOnlyNumber } from '../../util/formatters';
+import SearchValue from '../SearchValue';
 
 class FormItemWrap extends React.Component {
   constructor(props) {
@@ -23,7 +24,6 @@ class FormItemWrap extends React.Component {
       children,
       autoFocus,
       whitespace,
-      validateTrigger,
       ...rest
     } = this.props;
 
@@ -33,13 +33,12 @@ class FormItemWrap extends React.Component {
       required: required
     });
 
-    if (
-      children.type.name == 'Input' &&
-      (whitespace || (whitespace == undefined && required))
-    ) {
-      rules.push({
-        whitespace: true
-      });
+    if (children.type == Input || children.type == SearchValue) {      
+      if (whitespace || (whitespace == undefined && required)) {
+        rules.push({
+          whitespace: true
+        });
+      }
     }
 
     if (type === 'phone' || type === 'mobilePhone') {
@@ -70,12 +69,7 @@ class FormItemWrap extends React.Component {
       : children;
 
     return visible === false ? null : (
-      <Form.Item
-        validateTrigger={validateTrigger}
-        label={label}
-        {...rest}
-        rules={rules}
-      >
+      <Form.Item label={label} {...rest} rules={rules}>
         {control}
       </Form.Item>
     );

@@ -71,12 +71,13 @@ const UserEdit = ({ data, ...rest }) => {
         <FormItemWrap label="Papel" name="role">
           <RemoteSelect resource="roles" fethOnMount={false} />
         </FormItemWrap>
-        <FormItemWrap label="Item da Lista de Serviço (LC 116/03)" name="cnae">
+        <FormItemWrap label="Item da Lista de Serviço (LC 116/03)" name="cnae" required>
           <SearchValue
             drawerSize="40%"
             allowClear={true}
             title="Selecione o item da lista de serviço"
             resource="products/federal-services"
+            
             columns={[
               {
                 title: 'Código',
