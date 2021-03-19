@@ -24,12 +24,12 @@ class FormItemWrap extends React.Component {
       children,
       autoFocus,
       whitespace,
-      validateTrigger,
       name,
+      rules = [],
       ...rest
     } = this.props;
 
-    const { rules = [] } = this.props;
+    let { validateTrigger } = this.props;
 
     rules.push({
       required: required

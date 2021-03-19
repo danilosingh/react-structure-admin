@@ -75,8 +75,7 @@ const UserEdit = ({ data, ...rest }) => {
           label="Celular"
           name="mobilephone"
           validateTrigger="onBlur"
-          type="mobilePhone"
-          required
+          type="mobilePhone"          
         >
           <Input placeholder="(__) _____-____" />
         </FormItemWrap>
