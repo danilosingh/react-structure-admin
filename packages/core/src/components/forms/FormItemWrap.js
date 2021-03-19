@@ -24,6 +24,8 @@ class FormItemWrap extends React.Component {
       children,
       autoFocus,
       whitespace,
+      validateTrigger,
+      name,
       ...rest
     } = this.props;
 
@@ -33,23 +35,23 @@ class FormItemWrap extends React.Component {
       required: required
     });
 
-    if (children.type == Input || children.type == SearchValue) {      
-      if (whitespace || (whitespace == undefined && required)) {
-        rules.push({
-          whitespace: true
-        });
-      }
+    if (whitespace) {
+      rules.push({
+        whitespace: true
+      });
     }
 
     if (type === 'phone' || type === 'mobilePhone') {
+      if (!validateTrigger) {
+        validateTrigger = 'onBlur';
+      }
       rules.push({
         validator: (_, value) => {
           const length = type === 'phone' ? 10 : 11;
           const formattedValue = formartOnlyNumber(value);
-          if (formattedValue.length != length) {
-            return Promise.reject(new Error('Telefone inválido'));
+          if (formattedValue && formattedValue.length != length) {
+            return Promise.reject(new Error(`${label ?? name} inválido`));
           }
-
           return Promise.resolve();
         }
       });
@@ -69,7 +71,13 @@ class FormItemWrap extends React.Component {
       : children;
 
     return visible === false ? null : (
-      <Form.Item label={label} {...rest} rules={rules}>
+      <Form.Item
+        label={label}
+        name={name}
+        validateTrigger={validateTrigger}
+        {...rest}
+        rules={rules}
+      >
         {control}
       </Form.Item>
     );

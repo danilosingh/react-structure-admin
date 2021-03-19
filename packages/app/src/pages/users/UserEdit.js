@@ -31,8 +31,8 @@ const UserEdit = ({ data, ...rest }) => {
           label: (c) => `${c.name} - ${c.state?.toUpperCase()}`
         })
       },
-      name2: "Dan",
-      cnae: "123456",
+      name2: 'Dan',
+      cnae: '123456',
       role: normalizeToSelect(values.role)
     };
   };
@@ -71,13 +71,25 @@ const UserEdit = ({ data, ...rest }) => {
         <FormItemWrap label="Papel" name="role">
           <RemoteSelect resource="roles" fethOnMount={false} />
         </FormItemWrap>
-        <FormItemWrap label="Item da Lista de Serviço (LC 116/03)" name="cnae" required>
+        <FormItemWrap
+          label="Celular"
+          name="mobilephone"
+          validateTrigger="onBlur"
+          type="mobilePhone"
+          required
+        >
+          <Input placeholder="(__) _____-____" />
+        </FormItemWrap>
+        <FormItemWrap
+          label="Item da Lista de Serviço (LC 116/03)"
+          name="cnae"
+          required
+        >
           <SearchValue
             drawerSize="40%"
             allowClear={true}
             title="Selecione o item da lista de serviço"
             resource="products/federal-services"
-            
             columns={[
               {
                 title: 'Código',
