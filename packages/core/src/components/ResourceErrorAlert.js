@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert } from 'antd';
 
@@ -11,14 +11,23 @@ const ResourceErrorAlert = ({ resource }) => {
       ? errors.map((item) => item.message).join(' ')
       : null;
 
+  const ref = useRef(null);
+  useEffect(() => {
+    if (errorText && ref.current) {
+      ref.current.scrollIntoView();
+    }
+  }, [errorText, ref.current]);
+
   return (
     errorText && (
-      <Alert
-        className="gx-alert-error-crud"
-        description={errorText}
-        type="error"
-        closable
-      />
+      <div ref={ref}>
+        <Alert
+          className="gx-alert-error-crud"
+          description={errorText}
+          type="error"
+          closable
+        />
+      </div>
     )
   );
 };
