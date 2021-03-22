@@ -6,8 +6,8 @@ const defaultProps = {
 const getNormalizedData = (value, props) => {
   const { key, label } = props;
   return {
-    [key]: value.key,
-    [label]: value.label
+    [key ?? defaultProps.key]: value.key,
+    [label ?? defaultProps.label]: value.label
   };
 };
 

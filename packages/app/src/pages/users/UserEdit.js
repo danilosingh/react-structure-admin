@@ -13,16 +13,25 @@ import { chanceName, customFetch } from '../../stores/users/userActions';
 import { SearchValue } from 'react-structure-admin';
 
 const UserEdit = ({ data, ...rest }) => {
-  const submitHandle = (values) => {
-    if (values?.role) {
-    }
-    if (values.address && values.address.city) {
-      values.address.city = normalizeFromSelect(values.address.city);
-    }
-    return { ...values, role: normalizeFromSelect(values.role) };
+  const submitHandle = ({ address, ...values }) => {
+    console.log('submitHandle');
+    console.log(address.city);
+
+    return {
+      ...values,
+      address: { ...address, city: normalizeFromSelect(address.city) },
+      role: normalizeFromSelect(values.role)
+    };
   };
 
   const beforeBindingHandle = ({ address = {}, ...values }) => {
+    console.log('beforeBindingHandle');
+    console.log(address.city);
+    console.log(
+      normalizeToSelect(address.city, {
+        label: (c) => `${c.name} - ${c.state?.toUpperCase()}`
+      })
+    );
     return {
       ...values,
       address: {
@@ -53,9 +62,8 @@ const UserEdit = ({ data, ...rest }) => {
     <DrawerEdit
       {...rest}
       data={data}
-      size="500px"
+      size="70%"
       fetch={customFetch}
-      updateFormOnDataChanged={false}
       // submit={handleSubmit}
       onBeforeBinding={beforeBindingHandle}
       onSubmit={submitHandle}
@@ -75,7 +83,7 @@ const UserEdit = ({ data, ...rest }) => {
           label="Celular"
           name="mobilephone"
           validateTrigger="onBlur"
-          type="mobilePhone"          
+          type="mobilePhone"
         >
           <Input placeholder="(__) _____-____" />
         </FormItemWrap>

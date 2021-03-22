@@ -96,14 +96,7 @@ const Address = () => {
             label="Cidade/Estado"
             rules={[{ required: true }]}
           >
-            <RemoteSelect
-              resource="cities"
-              optionRender={(c) => (
-                <Select.Option key={c.key} value={c.key} label={c.label}>
-                  {`${c.item.name} - ${c.item.state.toUpperCase()}`}
-                </Select.Option>
-              )}
-            />
+            <RemoteSelect resource="cities" />
           </Form.Item>
         </Col>
       </Row>

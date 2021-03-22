@@ -12,8 +12,10 @@ const isFunction = (functionToCheck) => {
 const getNormalizedData = (value, props) => {
   const { key, label } = props;
   return {
-    key: isFunction(key) ? label(value) : value[key],
-    label: isFunction(label) ? label(value) : value[label],
+    key: isFunction(key) ? label(value) : value[key ?? defaultProps.key],
+    label: isFunction(label)
+      ? label(value)
+      : value[label ?? defaultProps.label],
     item: value
   };
 };
