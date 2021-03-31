@@ -1,14 +1,16 @@
+import configManager from "../../config/configManager";
+
 export const defaultResourcePagination = {
   total: 0,
   pageSize: 10,
   current: 1,
   showSizeChanger: false,
   showLessItems: true,
-  showTotal: (total) => {
+  showTotal: (total, range) => {
     if (total === 0) {
       return undefined;
     }
-    return `${total} ${total === 1 ? 'registro' : 'registros'}`;
+    return `Exibindo ${range[0]}-${range[1]} de ${total}`;
   }
 };
 
@@ -25,7 +27,13 @@ export const defaultResourceState = {
 
 export const normalizeResourceState = (state, resource) => {
   if (!state[resource]) {
-    state[resource] = { ...defaultResourceState };
+    state[resource] = {
+      ...defaultResourceState,
+      pagination: {
+        ...defaultResourcePagination,
+        pageSize: configManager.getConfig().pageSize
+      }
+    };
   }
 
   return state;

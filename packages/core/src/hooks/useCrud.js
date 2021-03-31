@@ -4,7 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'query-string';
 import { isEmpty } from '../util';
 import * as resourceActions from '../store/actions/resourceActions';
-import { defaultResourceState } from '../store/reducers/normalizeResourceState';
+import {
+  defaultResourceState,
+  defaultResourcePagination
+} from '../store/reducers/normalizeResourceState';
+import configManager from '../config/configManager';
 
 const useCrud = ({
   resource,
@@ -24,7 +28,14 @@ const useCrud = ({
   const resourceState = useSelector((state) => {
     return state.resources[resource]
       ? state.resources[resource]
-      : { ...defaultResourceState, loading };
+      : {
+          ...defaultResourceState,
+          pagination: {
+            ...defaultResourcePagination,
+            pageSize: configManager.getConfig().pageSize
+          },
+          loading
+        };
   });
 
   let { pagination, queryParams = {} } = resourceState;
@@ -157,18 +168,13 @@ const useCrud = ({
     [dispatch, resource, tenant, setQueryParams]
   );
 
-  const cancelEdit = useCallback(
-    () => {
-      return dispatch(
-        customCancelEdit
-          ? customCancelEdit(resource)
-          : resourceActions.cancelEdit(resource)
-      )
-    }   
-
-      ,
-    [dispatch, resource]
-  );
+  const cancelEdit = useCallback(() => {
+    return dispatch(
+      customCancelEdit
+        ? customCancelEdit(resource)
+        : resourceActions.cancelEdit(resource)
+    );
+  }, [dispatch, resource]);
 
   const paginationChanged = (current) => {
     let params;

@@ -24,8 +24,9 @@ const initialState = {
 };
 
 configManager.setConfig({
-  apiUrl: 'https://localhost:44323/v1',
+  apiUrl: 'https://localhost:44381/api/v1',
   multiTenant: { enabled: true, host: 'a' },
+  pageSize: 20,
   layout: {
     form: {
       labelCol: null,

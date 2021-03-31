@@ -1,8 +1,7 @@
 import React from 'react';
 import AdminContainer from './containers/admin/AdminContainer';
 import AppContainer from './containers/app/AppContainer';
-import CourtList from './pages/courts/CourtList';
-import Home from './pages/home/Home';
+import TopicList from './pages/topics/TopicList';
 import UserList from './pages/users/UserList';
 
 export default {
@@ -12,7 +11,7 @@ export default {
       defaultPath: '/a'
     }
   ],
-  routes: [    
+  routes: [
     {
       path: '/a',
       component: (props) => <AdminContainer {...props} />,
@@ -42,6 +41,15 @@ export default {
           singularTitle: 'Usuário',
           exact: true,
           component: (props) => <UserList {...props} />,
+          menu: { icon: 'tachometer-alt' }
+        },
+        {
+          path: '/topics',
+          title: 'Tópicos',
+          resource: 'topics',
+          singularTitle: 'Tópico',
+          exact: true,
+          component: (props) => <TopicList {...props} />,
           menu: { icon: 'tachometer-alt' }
         }
       ]

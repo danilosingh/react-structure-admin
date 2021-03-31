@@ -9,7 +9,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest",
-    "react-structure-admin": "1.0.49",
+    "react-structure-admin": "1.0.51",
     "redux-thunk": "latest"
   },
   "scripts": {
