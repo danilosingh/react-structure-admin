@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
 import { RESOURCE_ACTION_EDIT } from '../store/actions';
 import configManager from '../config/configManager';
 import { useCrudEditContext } from './CrudEditContext';
-import Form from 'antd/lib/form/Form';
 
 const DrawerEdit = ({
   children,
@@ -21,9 +22,22 @@ const DrawerEdit = ({
   onBeforeBinding,
   updateFormOnDataChanged = true,
   onDataChanged,
+  onValuesChange,
+  showConfirmDataLoss = true,
   ...rest
 }) => {
   const { form: editingForm } = useCrudEditContext();
+  const [modified, setModified] = useState(false);
+
+  useEffect(() => {
+    var dataChanged = onBeforeBinding ? onBeforeBinding(data) : data;
+    if (updateFormOnDataChanged) {
+      editingForm.setFieldsValue(dataChanged);
+    }
+    if (onDataChanged) {
+      onDataChanged(dataChanged);
+    }
+  }, [updateFormOnDataChanged, data]);
 
   const handleSubmit = () => {
     if (!action) {
@@ -52,22 +66,33 @@ const DrawerEdit = ({
     });
   };
 
-  useEffect(() => {
-    var dataChanged = onBeforeBinding ? onBeforeBinding(data) : data;
-    if (updateFormOnDataChanged) {
-      editingForm.setFieldsValue(dataChanged);
+  const handleValuesChange = (changedValues, allValues) => {    
+    onValuesChange?.(changedValues, allValues);
+    setModified(true);
+  };
+
+  const handleBackClick = () => {
+    if (showConfirmDataLoss && modified) {
+      Modal.confirm({
+        title: 'As modifições serão descartadas. Deseja sair sem salvar?',
+        icon: <ExclamationCircleOutlined />,
+        okText: 'Sair',
+        cancelText: 'Cancelar',
+        onOk() {
+          cancelEdit();
+        }
+      });
+    } else {
+      cancelEdit();
     }
-    if (onDataChanged) {
-      onDataChanged(dataChanged);
-    }
-  }, [updateFormOnDataChanged, data]);
+  };
 
   return (
     <DrawerContainer
       size={size}
       resource={resource}
       onOkClick={handleSubmit}
-      onBackClick={cancelEdit}
+      onBackClick={handleBackClick}
       okButtonText="Salvar"
       backButtonText="Cancelar"
       visible={visible}
@@ -76,6 +101,7 @@ const DrawerEdit = ({
       <ResourceErrorAlert resource={resource} />
       {React.cloneElement(children, {
         form: editingForm,
+        onValuesChange: handleValuesChange,
         initialValues: !updateFormOnDataChanged
           ? onBeforeBinding
             ? onBeforeBinding(data)

@@ -129,6 +129,10 @@ class RemoteSelect extends React.Component {
     this.handleSearch(value);
   };
 
+  handleClear = () => {
+    this.handleOnSearch(null);
+  };
+
   handleDropdownVisibleChange = (visible) => {
     if (visible && this.lastFetchId === 0) {
       this.fetchData();
@@ -151,13 +155,14 @@ class RemoteSelect extends React.Component {
   render() {
     const { fetching, data, open } = this.state;
     const { optionRender, placeholder, style } = this.props;
-    
+
     return (
       <Select
         {...this.props}
         showSearch
         labelInValue
         allowClear
+        onClear={this.handleClear}
         open={open}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
         onPopupScroll={this.handleScroll}
