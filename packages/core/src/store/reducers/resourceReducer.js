@@ -151,8 +151,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
           total: action.payload.data.result.totalCount,
           current: Number(action.payload.config.params.page) || 1
         },
-        totalCount: action.payload.data.result.totalCount,
-        items: [...action.payload.data.result.items],
+        ...action.payload.data.result,
         queryParams: action.payload.config.params,
         editing: action.payload.config.params.act === 'editing',
         loaded: true,

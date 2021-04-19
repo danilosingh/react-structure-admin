@@ -12,12 +12,12 @@ const UserList = (props) => {
     (state) => state.resources.users || {}
   );
   const buttonClick = () => {
-    dispatch(currentUserGet("8f9290ea-0d74-4ceb-8288-246b733b8240"));
-  }
+    dispatch(currentUserGet('8f9290ea-0d74-4ceb-8288-246b733b8240'));
+  };
   return (
     <>
-    <Button onClick={buttonClick}>Teste</Button>
-    {editingCurrentUser ? <CustomUserEdit /> : null}
+      <Button onClick={buttonClick}>Teste</Button>
+      {editingCurrentUser ? <CustomUserEdit /> : null}
       <Crud
         {...props}
         columns={[
@@ -26,6 +26,7 @@ const UserList = (props) => {
             dataIndex: 'name'
           }
         ]}
+        defaultQueryParams={{ filterText: 'Ok' }}
         editComponent={UserEdit}
       />
     </>

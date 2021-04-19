@@ -9,6 +9,7 @@ const Crud = ({
   get,
   match,
   fixedQueryParams,
+  defaultQueryParams,
   ...rest
 }) => {
   const basePath = match ? match.path : '';
@@ -26,7 +27,7 @@ const Crud = ({
       basePath={basePath}
       resource={resource}
       {...rest}
-      {...useCrud({ resource, fetch, get, fixedQueryParams })}
+      {...useCrud({ resource, fetch, get, fixedQueryParams, defaultQueryParams })}
     />
   );
 };

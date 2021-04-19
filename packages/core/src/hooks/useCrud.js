@@ -19,6 +19,7 @@ const useCrud = ({
   currentAttr = 'resourceToEdit',
   loading = false,
   useQueryStringParams = true,
+  defaultQueryParams,
   fixedQueryParams
 }) => {
   const dispatch = useDispatch();
@@ -56,6 +57,10 @@ const useCrud = ({
     if (JSON.stringify(queryParams) !== queryStringParamsJSON) {
       queryParams = queryStringParams;
     }
+  }
+
+  if (!isEmpty(defaultQueryParams) && isEmpty(queryParams)) {
+    queryParams = { ...queryParams, ...defaultQueryParams };
   }
 
   if (!isEmpty(fixedQueryParams)) {

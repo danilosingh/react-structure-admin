@@ -19,6 +19,7 @@ const WrapList = ({
   fetch: customFetch,
   useQueryStringParams,
   fixedQueryParams,
+  defaultQueryParams,
   unloadOnUnmount = true,
   ...rest
 }) => {
@@ -33,7 +34,8 @@ const WrapList = ({
     get,
     fetch: customFetch,
     useQueryStringParams,
-    fixedQueryParams
+    fixedQueryParams,
+    defaultQueryParams
   });
   const {
     data: { loaded, loading },
@@ -74,6 +76,7 @@ class List {
       currentAttr,
       useQueryStringParams,
       fixedQueryParams,
+      defaultQueryParams,
       title
     } = {}
   ) {
@@ -86,6 +89,7 @@ class List {
             get={get}
             useQueryStringParams={useQueryStringParams}
             fixedQueryParams={fixedQueryParams}
+            defaultQueryParams={defaultQueryParams}
             title={title}
             {...this.props}
           >
