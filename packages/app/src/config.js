@@ -27,10 +27,13 @@ export default {
       ]
     },
     {
+      path: '/signin',
+      component: (props) => <h1>Login</h1>,
+      exact: true
+    },
+    {
       path: '/',
       component: (props) => {
-        console.log('props');
-        console.log(props);
         return <AppContainer {...props} />;
       },
       routes: [

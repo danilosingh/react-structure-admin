@@ -7,8 +7,7 @@ const TopicEdit = ({ data, ...rest }) => {
     <DrawerEdit
       {...rest}
       data={data}
-      size="70%"
-     
+      size="70%"     
     >
       <Form requiredMark={true}>
         <FormItemWrap label="Nome" name="name" required>

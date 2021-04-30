@@ -4,18 +4,16 @@ import TopicEdit from './TopicEdit';
 
 const TopicList = (props) => {
   return (
-    <>
-      <Crud
-        {...props}
-        columns={[
-          {
-            title: 'Nome',
-            dataIndex: 'name'
-          }
-        ]}
-        editComponent={TopicEdit}
-      />
-    </>
+    <Crud
+      {...props}
+      columns={[
+        {
+          title: 'Nome',
+          dataIndex: 'name'
+        }
+      ]}
+      editComponent={TopicEdit}
+    />
   );
 };
 

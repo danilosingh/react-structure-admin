@@ -1,30 +1,35 @@
 import React, { Suspense } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { logDebug } from '../util/logger';
-import RestrictedRoute from './RestrictedRoute';
 import { buildPath } from './util/buildPath';
-
-const CustomRedirect = ({ to }) => {
-  useHistory().push(to);
-  return null;
-};
+import RestrictedRoute from './RestrictedRoute';
+import RouteRedirect from './RouteRedirect';
+import SimpleRoute from './SimpleRoute';
 
 const WrappedRoute = (props) => {
-  const { route, match, isContainer } = props;
+  const { route, isContainer, onBeforeRouteRender } = props;
   const { roles = [] } = route;
   let { basePath } = props;
 
   basePath = buildPath(basePath, route.path);
-  
-  logDebug(`ROUTE: ${basePath}`);
+
+  logDebug(`ROUTE: ${basePath}.`);
+
+  const renderRoute = (routeProps) => {
+    if (onBeforeRouteRender) {
+      const result = onBeforeRouteRender({ basePath, route, routeProps });
+      if (result) {
+        return result;
+      }
+    }
+    return <route.component {...route} basePath={basePath} {...routeProps} />;
+  };
 
   return route.redirectTo ? (
-    <Route
-      key={basePath}
-      path={`${basePath}`}
-      exact={route.exact || false}
+    <SimpleRoute
       basePath={basePath}
-      render={() => <CustomRedirect to={route.redirectTo} />}
+      route={route}
+      render={() => <RouteRedirect to={route.redirectTo} />}
     />
   ) : (
     <>
@@ -34,28 +39,10 @@ const WrappedRoute = (props) => {
           key={basePath}
           exact={route.exact || false}
           path={`${basePath}`}
-          render={(componentProps) => (
-            <route.component
-              {...route}
-              basePath={basePath}
-              {...componentProps}
-            />
-          )}
+          render={renderRoute}
         />
       ) : (
-        <Route
-          key={basePath}
-          path={`${basePath}`}
-          exact={route.exact || false}
-          basePath={basePath}
-          render={(componentProps) => (
-            <route.component
-              {...route}
-              basePath={basePath}
-              {...componentProps}
-            />
-          )}
-        />
+        <SimpleRoute basePath={basePath} route={route} render={renderRoute} />
       )}
       {isContainer && route.routes && (
         <Routes
@@ -64,6 +51,7 @@ const WrappedRoute = (props) => {
           roles={route.roles || roles}
           basePath={basePath}
           isContainer={isContainer}
+          onBeforeRouteRender={onBeforeRouteRender}
         />
       )}
     </>
@@ -71,7 +59,13 @@ const WrappedRoute = (props) => {
 };
 
 const Routes = (props) => {
-  const { routes = [], roles = [], basePath = '', isContainer } = props;
+  const {
+    routes = [],
+    roles = [],
+    basePath = '',
+    isContainer,
+    onBeforeRouteRender
+  } = props;
 
   return (
     <Switch>
@@ -83,6 +77,7 @@ const Routes = (props) => {
             roles={roles}
             basePath={basePath}
             isContainer={isContainer}
+            onBeforeRouteRender={onBeforeRouteRender}
           />
         ))}
       </Suspense>

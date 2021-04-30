@@ -5,7 +5,12 @@ import useAuth from './useAuth';
 let refreshTokenTimer = null;
 
 const AuthContextProvider = (props) => {
-  const { children, enableRefreshToken = false, getKey, onBeforeRefreshToken } = props;
+  const {
+    children,
+    enableRefreshToken = false,
+    getKey,
+    onBeforeRefreshToken
+  } = props;
 
   const {
     key,
