@@ -1,7 +1,8 @@
-import React from 'react';
-import { Select, Spin } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
 import { api } from '../api';
+import { omit } from '../util';
 
 const { Option } = Select;
 
@@ -11,6 +12,7 @@ const initialState = {
   textSearched: '',
   fetching: false,
   open: false,
+  editing: false,
   pagination: {
     hasNextPage: true,
     currentPage: 0
@@ -58,11 +60,16 @@ class RemoteSelect extends React.Component {
       sorting,
       defaultSorting = true,
       autoFocus,
-      tenant
+      tenant,
+      onFetching,
+      onFetched
     } = this.props;
     if (!pagination.hasNextPage) {
       return;
     }
+
+    onFetching?.(value);
+
     this.setState({ fetching: true });
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
@@ -77,6 +84,7 @@ class RemoteSelect extends React.Component {
       if (fetchId !== this.lastFetchId) {
         return;
       }
+      onFetched?.(data.result);
       const { totalCount = 0, items = [] } = data.result;
       const newItems = items.map((unit) => ({
         key: `${unit.id}`,
@@ -125,8 +133,14 @@ class RemoteSelect extends React.Component {
   };
 
   handleOnSearch = (value) => {
+    const { onSearch } = this.props;
+    onSearch?.(value);
     this.setState({ pagination: { hasNextPage: true, currentPage: 0 } });
-    this.handleSearch(value);
+    if (this.state.open) {
+      this.handleSearch(value);
+    } else {
+      this.lastFetchId = 0;
+    }
   };
 
   handleClear = () => {
@@ -134,12 +148,15 @@ class RemoteSelect extends React.Component {
   };
 
   handleDropdownVisibleChange = (visible) => {
+    const { onDropdownVisibleChange } = this.props;
+
     if (visible && this.lastFetchId === 0) {
       this.fetchData();
       return;
     }
 
     this.setState({ open: visible });
+    onDropdownVisibleChange?.(visible);
   };
 
   handleScroll = (event) => {
@@ -152,48 +169,82 @@ class RemoteSelect extends React.Component {
     }
   };
 
+  handleAdd = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      editing: true
+    }));
+  };
+
   render() {
     const { fetching, data, open } = this.state;
-    const { optionRender, placeholder, style } = this.props;
+    const {
+      optionRender,
+      placeholder,
+      style,
+      resource,
+      editComponent,
+      notFoundContent,
+      customDropdownRender
+    } = this.props;
 
     return (
-      <Select
-        {...this.props}
-        showSearch
-        labelInValue
-        allowClear
-        onClear={this.handleClear}
-        open={open}
-        onDropdownVisibleChange={this.handleDropdownVisibleChange}
-        onPopupScroll={this.handleScroll}
-        filterOption={false}
-        notFoundContent={fetching ? null : undefined}
-        placeholder={placeholder}
-        dropdownRender={(menu) => (
-          <>
-            {menu}
-            {fetching ? (
-              <div className="gx-remote-select-spin">
-                <Spin size="default" />
-              </div>
-            ) : null}
-          </>
+      <>
+        <Select
+          {...omit(this.props, [
+            'customDropdownRender',
+            'notFoundContent',
+            'onFetched',
+            'onFetching'
+          ])}
+          showSearch
+          labelInValue
+          allowClear
+          onClear={this.handleClear}
+          open={open}
+          onDropdownVisibleChange={this.handleDropdownVisibleChange}
+          onPopupScroll={this.handleScroll}
+          filterOption={false}
+          notFoundContent={
+            fetching ? null : notFoundContent && notFoundContent()
+          }
+          placeholder={placeholder}
+          dropdownRender={(menu) =>
+            customDropdownRender ? (
+              customDropdownRender({ menu, fetching })
+            ) : (
+              <>
+                {menu}
+                {fetching && (
+                  <div className="gx-remote-select-spin">
+                    <Spin size="default" />
+                  </div>
+                )}
+              </>
+            )
+          }
+          onSearch={this.handleOnSearch}
+          onSelect={(item) => this.onSelect(item)}
+          onDeselect={() => this.onSelect(undefined)}
+          style={style || { width: '100%' }}
+        >
+          {data.map((d) =>
+            optionRender ? (
+              optionRender(d)
+            ) : (
+              <Option key={d.key} value={d.key}>
+                {d.label}
+              </Option>
+            )
+          )}
+        </Select>
+        {this.state.editing && (
+          <RemoteSelectCrudWrapper
+            resource={resource}
+            editComponent={editComponent}
+          />
         )}
-        onSearch={this.handleOnSearch}
-        onSelect={(item) => this.onSelect(item)}
-        onDeselect={() => this.onSelect(undefined)}
-        style={style || { width: '100%' }}
-      >
-        {data.map((d) =>
-          optionRender ? (
-            optionRender(d)
-          ) : (
-            <Option key={d.key} value={d.key}>
-              {d.label}
-            </Option>
-          )
-        )}
-      </Select>
+      </>
     );
   }
 }

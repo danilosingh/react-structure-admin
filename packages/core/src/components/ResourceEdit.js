@@ -23,7 +23,8 @@ const InternalEdit = (props) => {
     get: customGet,
     cancelEdit: customCancelEdit,
     id,
-    unloadOnUnmount = true
+    onCreateOrUpdateSuccess,
+    unloadOnUnmount = true    
   } = props;
 
   const { params = {} } = match;
@@ -62,14 +63,13 @@ const InternalEdit = (props) => {
 
   const createOrUpdate = (record, onSucess) => {
     if (record.id) {
-      update(record.id, record, onSucess);
+      update(record.id, record, onSucess ?? onCreateOrUpdateSuccess);
     } else {
-      post(record, onSucess);
+      post(record, onSucess ?? onCreateOrUpdateSuccess);
     }
   };
 
   const [form] = Form.useForm();
-
   return (
     <CrudEditContextProvider form={form}>
       {React.cloneElement(children, {
@@ -82,9 +82,10 @@ const InternalEdit = (props) => {
         editing: data.editing,
         readOnly: data.readOnly,
         setCurrent,
-        visible: visible || data.visible,
+        visible: visible || data.visible || data.editing,
         onAfterCreate,
         cancelEdit,
+        onCreateOrUpdateSuccess,
         post,
         update,
         createOrUpdate,
@@ -98,18 +99,28 @@ const InternalEdit = (props) => {
 class ResourceEdit {
   static create(
     WrappedComponent,
-    { resource, get, currentAttr, unloadOnUnmount, cancelEdit }
+    {
+      resource,
+      get,
+      currentAttr,
+      unloadOnUnmount,
+      cancelEdit,
+      onCreateOrUpdateSuccess,
+      ...rest
+    }
   ) {
     return createReactClass({
       render() {
         return (
           <InternalEdit
-            {...this.props}
+            onCreateOrUpdateSuccess={onCreateOrUpdateSuccess}
             resource={resource}
             get={get}
             currentAttr={currentAttr}
             unloadOnUnmount={unloadOnUnmount}
             cancelEdit={cancelEdit}
+            {...rest}
+            {...this.props}
           >
             <WrappedComponent />
           </InternalEdit>

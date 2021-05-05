@@ -11,9 +11,18 @@ const UserList = (props) => {
   const { editingCurrentUser } = useSelector(
     (state) => state.resources.users || {}
   );
+  console.log(editingCurrentUser);
   const buttonClick = () => {
     dispatch(currentUserGet('8f9290ea-0d74-4ceb-8288-246b733b8240'));
   };
+
+  const handleBuildQueryParams = (params) => {
+    if (!params.filterText) {
+      params = { ...params, filterText: 'Fixo' };
+    }
+    return params;
+  };
+
   return (
     <>
       <Button onClick={buttonClick}>Teste</Button>
@@ -26,7 +35,7 @@ const UserList = (props) => {
             dataIndex: 'name'
           }
         ]}
-        defaultQueryParams={{ filterText: 'Ok' }}
+        onBuildQueryParams={handleBuildQueryParams}
         editComponent={UserEdit}
       />
     </>

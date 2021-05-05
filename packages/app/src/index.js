@@ -39,14 +39,10 @@ configManager.setConfig({
     }
   }
 });
-console.log(updateResourceState);
 const history = createBrowserHistory();
 const store = rootStore(initialState, history);
 const onBeforeRouteRender = ({ route }) => {
-console.log("route.path");
-console.log(route.path);
   if (route.path != '/' && route.path != '/signin') {
-    console.log('redirect');
     return <RouteRedirect to="/signin" />;
   }
   return null;

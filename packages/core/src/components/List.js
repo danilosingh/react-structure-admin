@@ -21,6 +21,7 @@ const WrapList = ({
   fixedQueryParams,
   defaultQueryParams,
   unloadOnUnmount = true,
+  onBuildQueryParams,
   ...rest
 }) => {
   let { resource } = rest;
@@ -35,7 +36,8 @@ const WrapList = ({
     fetch: customFetch,
     useQueryStringParams,
     fixedQueryParams,
-    defaultQueryParams
+    defaultQueryParams,
+    onBuildQueryParams
   });
   const {
     data: { loaded, loading },
@@ -77,6 +79,7 @@ class List {
       useQueryStringParams,
       fixedQueryParams,
       defaultQueryParams,
+      onBuildQueryParams,
       title
     } = {}
   ) {
@@ -91,6 +94,7 @@ class List {
             fixedQueryParams={fixedQueryParams}
             defaultQueryParams={defaultQueryParams}
             title={title}
+            onBuildQueryParams={onBuildQueryParams}
             {...this.props}
           >
             <WrappedComponent />

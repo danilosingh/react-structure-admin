@@ -62,11 +62,12 @@ class FormItemWrap extends React.Component {
     }
 
     const parent = this;
+    
     const control = autoFocus
       ? React.cloneElement(children, {
           ref: (node) => {
             parent.ref = node;
-          }
+          }          
         })
       : children;
 

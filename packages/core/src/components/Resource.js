@@ -8,6 +8,7 @@ const Resource = ({
   fetch,
   match,
   fixedQueryParams,
+  onBuildQueryParams,
   ...rest
 }) => {
   const basePath = match ? match.path : '';
@@ -25,7 +26,7 @@ const Resource = ({
       basePath={basePath}
       resource={resource}
       {...rest}
-      {...useCrud({ resource, fetch, fixedQueryParams })}
+      {...useCrud({ resource, fetch, fixedQueryParams, onBuildQueryParams })}
     />
   );
 };

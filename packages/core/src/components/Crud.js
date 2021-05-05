@@ -4,12 +4,13 @@ import CrudContainer from './CrudContainer';
 
 const Crud = ({
   path,
-  resource,  
+  resource,
   fetch,
   get,
   match,
   fixedQueryParams,
   defaultQueryParams,
+  onBuildQueryParams,
   ...rest
 }) => {
   const basePath = match ? match.path : '';
@@ -27,7 +28,14 @@ const Crud = ({
       basePath={basePath}
       resource={resource}
       {...rest}
-      {...useCrud({ resource, fetch, get, fixedQueryParams, defaultQueryParams })}
+      {...useCrud({
+        resource,
+        fetch,
+        get,
+        fixedQueryParams,
+        defaultQueryParams,
+        onBuildQueryParams
+      })}
     />
   );
 };

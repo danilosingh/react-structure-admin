@@ -9,6 +9,7 @@ import {
   defaultResourcePagination
 } from '../store/reducers/normalizeResourceState';
 import configManager from '../config/configManager';
+import isEmptyParams from '../util/isEmptyParams';
 
 const useCrud = ({
   resource,
@@ -20,7 +21,8 @@ const useCrud = ({
   loading = false,
   useQueryStringParams = true,
   defaultQueryParams,
-  fixedQueryParams
+  fixedQueryParams,
+  onBuildQueryParams
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -59,12 +61,19 @@ const useCrud = ({
     }
   }
 
-  if (!isEmpty(defaultQueryParams) && isEmpty(queryParams)) {
+  if (
+    !isEmpty(defaultQueryParams) &&
+    (isEmpty(queryParams) || isEmptyParams(queryParams))
+  ) {
     queryParams = { ...queryParams, ...defaultQueryParams };
   }
 
   if (!isEmpty(fixedQueryParams)) {
     queryParams = { ...queryParams, ...fixedQueryParams };
+  }
+
+  if (onBuildQueryParams) {
+    queryParams = onBuildQueryParams(queryParams);
   }
 
   const setQueryParams = useCallback(

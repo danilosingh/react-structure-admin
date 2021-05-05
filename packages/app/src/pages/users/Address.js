@@ -94,7 +94,6 @@ const Address = () => {
           <Form.Item
             name={['address', 'city']}
             label="Cidade/Estado"
-            rules={[{ required: true }]}
           >
             <RemoteSelect resource="cities" />
           </Form.Item>

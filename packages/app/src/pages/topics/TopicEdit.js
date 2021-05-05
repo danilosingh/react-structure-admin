@@ -1,14 +1,13 @@
 import React from 'react';
 import { Input, Form } from 'antd';
-import { DrawerEdit, FormItemWrap } from 'react-structure-admin';
+import { DrawerEdit, FormItemWrap, ResourceEdit } from 'react-structure-admin';
 
 const TopicEdit = ({ data, ...rest }) => {
+  console.log('TopicEdit');
+  console.log(rest);
+  
   return (
-    <DrawerEdit
-      {...rest}
-      data={data}
-      size="70%"     
-    >
+    <DrawerEdit {...rest} data={data} size="70%">
       <Form requiredMark={true}>
         <FormItemWrap label="Nome" name="name" required>
           <Input />
@@ -17,4 +16,5 @@ const TopicEdit = ({ data, ...rest }) => {
     </DrawerEdit>
   );
 };
+
 export default TopicEdit;

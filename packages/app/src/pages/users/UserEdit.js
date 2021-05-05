@@ -5,12 +5,18 @@ import {
   RemoteSelect,
   normalizeToSelect,
   normalizeFromSelect,
-  FormItemWrap
+  FormItemWrap,
+  RemoteSelectCrud
 } from 'react-structure-admin';
 import Address from './Address';
 import { useDispatch } from 'react-redux';
 import { chanceName, customFetch } from '../../stores/users/userActions';
 import { SearchValue } from 'react-structure-admin';
+import TopicEdit from '../topics/TopicEdit';
+
+const Test = () => {
+  return <h1>Teste</h1>;
+};
 
 const UserEdit = ({ data, ...rest }) => {
   const submitHandle = ({ address, ...values }) => {
@@ -49,7 +55,6 @@ const UserEdit = ({ data, ...rest }) => {
     console.log(target.value);
   };
   const handleSubmit = (data, action) => {
-    alert(data.name);
     console.log(data);
   };
 
@@ -64,7 +69,6 @@ const UserEdit = ({ data, ...rest }) => {
       data={data}
       size="70%"
       fetch={customFetch}
-      // submit={handleSubmit}
       onBeforeBinding={beforeBindingHandle}
       onSubmit={submitHandle}
     >
@@ -86,6 +90,14 @@ const UserEdit = ({ data, ...rest }) => {
           type="mobilePhone"
         >
           <Input placeholder="(__) _____-____" />
+        </FormItemWrap>
+        <FormItemWrap name={['topic']} label="Tópico">
+          <RemoteSelectCrud
+            resource="topics"
+            textPropName="name"
+            resourceTitle="Tópico"
+            editComponent={TopicEdit}
+          />
         </FormItemWrap>
         <FormItemWrap
           label="Item da Lista de Serviço (LC 116/03)"

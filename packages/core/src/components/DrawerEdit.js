@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import DrawerContainer from './DrawerContainer';
 import ResourceErrorAlert from './ResourceErrorAlert';
-import { RESOURCE_ACTION_EDIT } from '../store/actions';
+import { RESOURCE_ACTION_EDIT, RESOURCE_ACTION_CREATE } from '../store/actions';
 import configManager from '../config/configManager';
 import { useCrudEditContext } from './CrudEditContext';
 
@@ -24,6 +24,7 @@ const DrawerEdit = ({
   onDataChanged,
   onValuesChange,
   showConfirmDataLoss = true,
+  onCreateOrUpdateSuccess,
   ...rest
 }) => {
   const { form: editingForm } = useCrudEditContext();
@@ -53,20 +54,19 @@ const DrawerEdit = ({
           return;
         }
       }
-
       if (submit) {
         submit(values, action);
       } else {
         if (action === RESOURCE_ACTION_EDIT) {
-          update(data.id, dataToSend);
+          update(data.id, dataToSend, onCreateOrUpdateSuccess);
         } else {
-          post(dataToSend);
+          post(dataToSend, onCreateOrUpdateSuccess);
         }
       }
     });
   };
 
-  const handleValuesChange = (changedValues, allValues) => {    
+  const handleValuesChange = (changedValues, allValues) => {
     onValuesChange?.(changedValues, allValues);
     setModified(true);
   };
