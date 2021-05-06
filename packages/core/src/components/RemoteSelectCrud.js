@@ -1,5 +1,5 @@
 import { Button, Spin } from 'antd';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 
 import { useCrud } from '../hooks';
@@ -24,7 +24,8 @@ const RemoteSelectCrud = ({
     get,
     data: { editing, action }
   } = useCrud({ resource });
-  console.log(action);
+
+  const ref = useRef(null);
   const [text, setText] = useState(null);
   const [allowShow, setAllowShow] = useState(true);
   const [showButtonEdit, setShowButtonEdit] = useState(
@@ -33,9 +34,13 @@ const RemoteSelectCrud = ({
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleAddClick = () => {
+    ref.current.focus();
+    ref.current.blur();
     setText(null);
     handleChange({});
-    create(textPropName ? { [textPropName]: text } : {});
+    setTimeout(() => {
+      create(textPropName ? { [textPropName]: text } : {});
+    }, 500);
   };
 
   const handleEditClick = () => {
@@ -74,6 +79,7 @@ const RemoteSelectCrud = ({
   };
 
   const handleCreateOrUpdateSuccess = ({ data: result }) => {
+    ref.current.reset();
     handleChange(normalizeToSelect(result.result));
   };
 
@@ -103,7 +109,11 @@ const RemoteSelectCrud = ({
   );
 
   return (
-    <span class="gx-remote-select-crud ant-input-affix-wrapper">
+    <span
+      className={`gx-remote-select-crud ant-input-affix-wrapper${
+        !isEmpty(selectedItem) ? ' selected' : ''
+      }`}
+    >
       <RemoteSelect
         resource={resource}
         onSearch={handleSearch}
@@ -111,6 +121,7 @@ const RemoteSelectCrud = ({
         onDropdownVisibleChange={handleDropdownVisibleChange}
         customDropdownRender={customDropdownRender}
         onFetched={handleFetched}
+        ref={ref}
         value={value}
         {...rest}
       />

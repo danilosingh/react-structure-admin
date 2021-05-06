@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Select, Spin } from 'antd';
+import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
 import { api } from '../api';
 import { omit } from '../util';
@@ -12,7 +12,6 @@ const initialState = {
   textSearched: '',
   fetching: false,
   open: false,
-  editing: false,
   pagination: {
     hasNextPage: true,
     currentPage: 0
@@ -26,6 +25,7 @@ class RemoteSelect extends React.Component {
     this.handleSearch = debounce(this.fetchData, 800);
     this.fethOnMount = props.fethOnMount;
     this.state = { ...initialState };
+    this.remoteSelect = React.createRef();
   }
 
   componentDidMount() {
@@ -169,12 +169,21 @@ class RemoteSelect extends React.Component {
     }
   };
 
-  handleAdd = () => {
+  blur() {
+    this.remoteSelect.current.blur();
+  }
+
+  focus() {
+    this.remoteSelect.current.focus();
+  }
+
+  reset() {
+    this.lastFetchId = 0;
     this.setState((prevState) => ({
       ...prevState,
-      editing: true
+      ...initialState
     }));
-  };
+  }
 
   render() {
     const { fetching, data, open } = this.state;
@@ -182,8 +191,6 @@ class RemoteSelect extends React.Component {
       optionRender,
       placeholder,
       style,
-      resource,
-      editComponent,
       notFoundContent,
       customDropdownRender
     } = this.props;
@@ -195,11 +202,13 @@ class RemoteSelect extends React.Component {
             'customDropdownRender',
             'notFoundContent',
             'onFetched',
-            'onFetching'
+            'onFetching',
+            'fethOnMount'
           ])}
           showSearch
           labelInValue
           allowClear
+          ref={this.remoteSelect}
           onClear={this.handleClear}
           open={open}
           onDropdownVisibleChange={this.handleDropdownVisibleChange}
@@ -238,12 +247,6 @@ class RemoteSelect extends React.Component {
             )
           )}
         </Select>
-        {this.state.editing && (
-          <RemoteSelectCrudWrapper
-            resource={resource}
-            editComponent={editComponent}
-          />
-        )}
       </>
     );
   }
