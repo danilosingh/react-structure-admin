@@ -21,23 +21,17 @@ const Test = () => {
 const UserEdit = ({ data, ...rest }) => {
   const submitHandle = ({ address, ...values }) => {
     console.log('submitHandle');
-    console.log(address.city);
 
     return {
       ...values,
       address: { ...address, city: normalizeFromSelect(address.city) },
-      role: normalizeFromSelect(values.role)
+      role: normalizeFromSelect(values.role),
+      topic: normalizeFromSelect(values.topic)
     };
   };
 
   const beforeBindingHandle = ({ address = {}, ...values }) => {
-    console.log('beforeBindingHandle');
-    console.log(address.city);
-    console.log(
-      normalizeToSelect(address.city, {
-        label: (c) => `${c.name} - ${c.state?.toUpperCase()}`
-      })
-    );
+  
     return {
       ...values,
       address: {
@@ -48,21 +42,19 @@ const UserEdit = ({ data, ...rest }) => {
       },
       name2: 'Dan',
       cnae: '123456',
-      role: normalizeToSelect(values.role)
+      role: normalizeToSelect(values.role),
+      topic: normalizeToSelect(values.topic)
     };
   };
-  const onChangeName = ({ target }) => {
-    console.log(target.value);
-  };
-  const handleSubmit = (data, action) => {
-    console.log(data);
+  const onChange = (item) => {
+    alert(item.key)
   };
 
   var dispatch = useDispatch();
   const click = () => {
     dispatch(chanceName());
   };
-  console.log(data);
+  
   return (
     <DrawerEdit
       {...rest}
@@ -96,6 +88,7 @@ const UserEdit = ({ data, ...rest }) => {
             resource="topics"
             textPropName="name"
             resourceTitle="Tópico"
+            onChange={onChange}
             editComponent={TopicEdit}
           />
         </FormItemWrap>

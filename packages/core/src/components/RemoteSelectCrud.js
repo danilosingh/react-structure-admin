@@ -1,5 +1,5 @@
 import { Button, Spin } from 'antd';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 
 import { useCrud } from '../hooks';
@@ -13,10 +13,11 @@ const RemoteSelectCrud = ({
   editComponent: EditComponent,
   resource,
   textPropName,
-  onChange,
   resourceTitle,
-  enableEdit = true,
+  enableEdit = true,  
+  onChange,
   value,
+  onCreateOrUpdate,
   ...rest
 }) => {
   const {
@@ -28,11 +29,7 @@ const RemoteSelectCrud = ({
   const ref = useRef(null);
   const [text, setText] = useState(null);
   const [allowShow, setAllowShow] = useState(true);
-  const [showButtonEdit, setShowButtonEdit] = useState(
-    enableEdit && !isEmpty(value)
-  );
-  const [selectedItem, setSelectedItem] = useState(null);
-
+  
   const handleAddClick = () => {
     ref.current.focus();
     ref.current.blur();
@@ -44,14 +41,17 @@ const RemoteSelectCrud = ({
   };
 
   const handleEditClick = () => {
-    const { key } = selectedItem;
+    const { key } = value;
     get(key);
   };
 
   const notFoundRender = () => {
     return (
       allowShow && (
-        <Button style={{ marginLeft: '10px' }} onClick={handleAddClick}>
+        <Button
+          className="gx-remote-select-crud-add-button"
+          onClick={handleAddClick}
+        >
           + Adicionar{text ? ` (${text}...)` : ''}
         </Button>
       )
@@ -74,18 +74,17 @@ const RemoteSelectCrud = ({
   };
   const handleChange = (item) => {
     onChange?.(item);
-    setSelectedItem(item);
-    setShowButtonEdit(!isEmpty(item));
   };
 
   const handleCreateOrUpdateSuccess = ({ data: result }) => {
     ref.current.reset();
     handleChange(normalizeToSelect(result.result));
+    onCreateOrUpdate?.(result.result);
   };
 
-  const handleSearch = (value) => {
+  const handleSearch = (text) => {
     setAllowShow(false);
-    setText(value);
+    setText(text);
   };
 
   const handleFetched = () => {
@@ -111,7 +110,7 @@ const RemoteSelectCrud = ({
   return (
     <span
       className={`gx-remote-select-crud ant-input-affix-wrapper${
-        !isEmpty(selectedItem) ? ' selected' : ''
+        !isEmpty(value) ? ' selected' : ''
       }`}
     >
       <RemoteSelect
@@ -125,7 +124,7 @@ const RemoteSelectCrud = ({
         value={value}
         {...rest}
       />
-      {showButtonEdit && selectedItem && (
+      {enableEdit && !isEmpty(value) && (
         <Button className onClick={handleEditClick} icon={<EditOutlined />} />
       )}
       {editing && <EditComponentWrap />}
