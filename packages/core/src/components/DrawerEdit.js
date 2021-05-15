@@ -21,6 +21,7 @@ const DrawerEdit = ({
   onSubmit,
   onBeforeBinding,
   updateFormOnDataChanged = true,
+  readOnly = false,
   onDataChanged,
   onValuesChange,
   showConfirmDataLoss = true,
@@ -94,7 +95,7 @@ const DrawerEdit = ({
       onOkClick={handleSubmit}
       onBackClick={handleBackClick}
       okButtonText="Salvar"
-      backButtonText="Cancelar"
+      backButtonText={readOnly ? 'Voltar' : 'Cancelar'}
       visible={visible}
       {...rest}
     >

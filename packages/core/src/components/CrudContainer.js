@@ -28,14 +28,15 @@ const CrudEditWrapper = ({
 const CrudContainer = (props) => {
   const [delayedSearch, setDelayedSearch] = useState(null);
   const history = useHistory();
-
+  
   const {
     data: {
       items: dataSource,
       resourceToEdit,
       action = RESOURCE_ACTION_CREATE,
       editing,
-      saving
+      saving,
+      readOnly
     },
     data,
     resource,
@@ -140,7 +141,7 @@ const CrudContainer = (props) => {
     if (!data.editing || (!CreateComponent && !EditComponent)) {
       return null;
     }
-
+    alert(`: ${readOnly}`);
     const editingProps = {
       title: getEditingTitle(),
       resource,
@@ -148,6 +149,7 @@ const CrudContainer = (props) => {
       post,
       update,
       visible: editing,
+      readOnly,
       saving,
       action,
       data: resourceToEdit,
@@ -178,33 +180,30 @@ const CrudContainer = (props) => {
         key: 'action',
         align: 'right',
         width: '150px',
-        render: (text, record) => (
-          <span key={record.id}>
-            {ActionsComponent ? (
-              <ActionsComponent
-                record={record}
-                initEditing={initEditing}
-                removeRecord={removeRecord}
-              />
-            ) : (
-              <>
-                <Button size="small" onClick={() => initEditing(record)}>
-                  Editar
+        render: (text, record) =>
+          ActionsComponent ? (
+            <ActionsComponent
+              record={record}
+              initEditing={initEditing}
+              removeRecord={removeRecord}
+            />
+          ) : (
+            <span key={record.id}>
+              <Button size="small" onClick={() => initEditing(record)}>
+                Editar
+              </Button>
+              <Popconfirm
+                title="Deseja excluir?"
+                onConfirm={() => removeRecord(record.id)}
+                cancelText="Não"
+                okText="Sim"
+              >
+                <Button type="danger" size="small">
+                  Excluir
                 </Button>
-                <Popconfirm
-                  title="Deseja excluir?"
-                  onConfirm={() => removeRecord(record.id)}
-                  cancelText="Não"
-                  okText="Sim"
-                >
-                  <Button type="danger" size="small">
-                    Excluir
-                  </Button>
-                </Popconfirm>
-              </>
-            )}
-          </span>
-        )
+              </Popconfirm>
+            </span>
+          )
       });
     }
 
