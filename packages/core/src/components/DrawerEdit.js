@@ -97,6 +97,7 @@ const DrawerEdit = ({
       okButtonText="Salvar"
       backButtonText={readOnly ? 'Voltar' : 'Cancelar'}
       visible={visible}
+      readOnly={readOnly}
       {...rest}
     >
       <ResourceErrorAlert resource={resource} />

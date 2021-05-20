@@ -141,7 +141,7 @@ const CrudContainer = (props) => {
     if (!data.editing || (!CreateComponent && !EditComponent)) {
       return null;
     }
-    alert(`: ${readOnly}`);
+    
     const editingProps = {
       title: getEditingTitle(),
       resource,
@@ -297,7 +297,8 @@ const CrudContainer = (props) => {
                   handleTableChange,
                   initCreation,
                   initEditing,
-                  removeRecord
+                  removeRecord,
+                  readOnly
                 })
               )}
               {editingRender()}
