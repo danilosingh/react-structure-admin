@@ -20,7 +20,6 @@ const Test = () => {
 
 const UserEdit = ({ data, ...rest }) => {
   const submitHandle = ({ address, ...values }) => {
-    console.log('submitHandle');
 
     return {
       ...values,

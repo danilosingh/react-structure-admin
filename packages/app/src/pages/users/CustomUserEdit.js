@@ -10,7 +10,6 @@ import {
 import { currentUserCancel } from '../../stores/users/userActions';
 
 const CustomUserEdit = ({ data, ...rest }) => {
-  console.log(rest);
   const submitHandle = (values) => {
     if (values?.role) {
     }

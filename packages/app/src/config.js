@@ -1,6 +1,7 @@
 import React from 'react';
 import AdminContainer from './containers/admin/AdminContainer';
 import AppContainer from './containers/app/AppContainer';
+import SignIn from './pages/signin/SignIn';
 import TopicList from './pages/topics/TopicList';
 import UserList from './pages/users/UserList';
 
@@ -28,7 +29,7 @@ export default {
     },
     {
       path: '/signin',
-      component: (props) => <h1>Login</h1>,
+      component: (props) => <SignIn {...props} />,
       exact: true
     },
     {

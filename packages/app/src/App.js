@@ -6,7 +6,6 @@ import './App.less';
 
 function App() {
   var a = require('react-structure-admin');
-  console.log(Object.keys(a));
 
   return (
     <div className="App">
