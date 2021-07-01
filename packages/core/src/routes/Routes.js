@@ -24,6 +24,10 @@ const WrappedRoute = (props) => {
     }
     return <route.component {...route} basePath={basePath} {...routeProps} />;
   };
+  
+  const isContainerAux = route.isContainer ?? isContainer;
+  console.log(isContainerAux);
+  console.log(route);
 
   return route.redirectTo ? (
     <SimpleRoute
@@ -44,13 +48,13 @@ const WrappedRoute = (props) => {
       ) : (
         <SimpleRoute basePath={basePath} route={route} render={renderRoute} />
       )}
-      {isContainer && route.routes && (
+      {isContainerAux && route.routes && (
         <Routes
           key={`container_${basePath}`}
           routes={route.routes}
           roles={route.roles || roles}
           basePath={basePath}
-          isContainer={isContainer}
+          isContainer={isContainerAux}
           onBeforeRouteRender={onBeforeRouteRender}
         />
       )}
