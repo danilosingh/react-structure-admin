@@ -26,8 +26,6 @@ const WrappedRoute = (props) => {
   };
   
   const isContainerAux = route.isContainer ?? isContainer;
-  console.log(isContainerAux);
-  console.log(route);
 
   return route.redirectTo ? (
     <SimpleRoute
