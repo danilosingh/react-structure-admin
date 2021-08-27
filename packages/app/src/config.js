@@ -65,6 +65,7 @@ export default {
           isContainer: false,
           component: (props) => <AppContainer2 {...props} />,
           menu: { icon: 'tachometer-alt' },
+          roles: ['Admin'],
           routes: [
             {
               path: '/xxx',

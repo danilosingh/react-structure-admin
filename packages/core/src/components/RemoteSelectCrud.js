@@ -1,8 +1,8 @@
 import { Button, Spin } from 'antd';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-
 import { useCrud } from '../hooks';
+import { generateUUID } from '../util';
 import { normalizeToSelect } from '../util/converters';
 import RemoteSelect from './RemoteSelect';
 import ResourceEdit from './ResourceEdit';
@@ -14,35 +14,37 @@ const RemoteSelectCrud = ({
   resource,
   textPropName,
   resourceTitle,
-  enableEdit = true,  
+  enableEdit = true,
   onChange,
   value,
   onCreateOrUpdate,
+  other,
   ...rest
 }) => {
   const {
     create,
     get,
-    data: { editing, action }
+    data: { editing, action, componentKey: stateComponentKey }
   } = useCrud({ resource });
 
+  const [componentKey] = useState(generateUUID());
   const ref = useRef(null);
   const [text, setText] = useState(null);
   const [allowShow, setAllowShow] = useState(true);
-  
+
   const handleAddClick = () => {
     ref.current.focus();
     ref.current.blur();
     setText(null);
     handleChange({});
     setTimeout(() => {
-      create(textPropName ? { [textPropName]: text } : {});
+      create(textPropName ? { [textPropName]: text } : {}, { componentKey });
     }, 500);
   };
 
   const handleEditClick = () => {
     const { key } = value;
-    get(key);
+    get(key, { componentKey });
   };
 
   const notFoundRender = () => {
@@ -127,7 +129,7 @@ const RemoteSelectCrud = ({
       {enableEdit && !isEmpty(value) && (
         <Button className onClick={handleEditClick} icon={<EditOutlined />} />
       )}
-      {editing && <EditComponentWrap />}
+      {editing && stateComponentKey === componentKey && <EditComponentWrap />}
     </span>
   );
 };

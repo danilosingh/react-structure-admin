@@ -80,7 +80,8 @@ class List {
       fixedQueryParams,
       defaultQueryParams,
       onBuildQueryParams,
-      title
+      title,
+      fetch
     } = {}
   ) {
     return createReactClass({
@@ -95,6 +96,7 @@ class List {
             defaultQueryParams={defaultQueryParams}
             title={title}
             onBuildQueryParams={onBuildQueryParams}
+            fetch={fetch}
             {...this.props}
           >
             <WrappedComponent />

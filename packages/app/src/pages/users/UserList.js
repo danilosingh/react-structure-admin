@@ -6,7 +6,6 @@ import { currentUserGet } from '../../stores/users/userActions';
 import UserEdit from './UserEdit';
 import CustomUserEdit from './CustomUserEdit';
 const UserList = (props) => {
-  console.log(useAuthContext())
   var dispatch = useDispatch();
   const { editingCurrentUser } = useSelector(
     (state) => state.resources.users || {}

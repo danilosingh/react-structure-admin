@@ -20,7 +20,6 @@ const Test = () => {
 
 const UserEdit = ({ data, ...rest }) => {
   const submitHandle = ({ address, ...values }) => {
-
     return {
       ...values,
       address: { ...address, city: normalizeFromSelect(address.city) },
@@ -30,7 +29,6 @@ const UserEdit = ({ data, ...rest }) => {
   };
 
   const beforeBindingHandle = ({ address = {}, ...values }) => {
-  
     return {
       ...values,
       address: {
@@ -45,15 +43,13 @@ const UserEdit = ({ data, ...rest }) => {
       topic: normalizeToSelect(values.topic)
     };
   };
-  const onChange = (item) => {
-    alert(item.key)
-  };
+  const onChange = (item) => {};
 
   var dispatch = useDispatch();
   const click = () => {
     dispatch(chanceName());
   };
-  
+
   return (
     <DrawerEdit
       {...rest}
@@ -65,7 +61,12 @@ const UserEdit = ({ data, ...rest }) => {
     >
       <Form requiredMark={true}>
         <Button onClick={click}>Teste</Button>
-        <FormItemWrap label="Nome" name="name" required>
+        <FormItemWrap
+          label="Nome"
+          name="name"
+          tooltip="Testando agora o tooltip"
+          required
+        >
           <Input />
         </FormItemWrap>
         <FormItemWrap label="Nome" name="name2" required>
@@ -88,9 +89,31 @@ const UserEdit = ({ data, ...rest }) => {
             textPropName="name"
             resourceTitle="Tópico"
             onChange={onChange}
+            other="aaaa"
             editComponent={TopicEdit}
           />
         </FormItemWrap>
+        <FormItemWrap name={['topic']} label="Tópico">
+          <RemoteSelectCrud
+            resource="topics"
+            textPropName="name"
+            resourceTitle="Tópico"
+            onChange={onChange}
+            other="aaaa"
+            editComponent={TopicEdit}
+          />
+        </FormItemWrap>
+        <FormItemWrap name={['topic']} label="Tópico">
+          <RemoteSelectCrud
+            resource="topics"
+            textPropName="name"
+            resourceTitle="Tópico"
+            onChange={onChange}
+            other="aaaa"
+            editComponent={TopicEdit}
+          />
+        </FormItemWrap>
+
         <FormItemWrap
           label="Item da Lista de Serviço (LC 116/03)"
           name="cnae"

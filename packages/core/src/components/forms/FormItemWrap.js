@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Tooltip } from 'antd';
 import { formartOnlyNumber } from '../../util/formatters';
-import SearchValue from '../SearchValue';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 class FormItemWrap extends React.Component {
   constructor(props) {
@@ -25,6 +25,8 @@ class FormItemWrap extends React.Component {
       autoFocus,
       whitespace,
       name,
+      tooltip,
+      tooltipIcon,
       rules = [],
       ...rest
     } = this.props;
@@ -62,18 +64,29 @@ class FormItemWrap extends React.Component {
     }
 
     const parent = this;
-    
+
     const control = autoFocus
       ? React.cloneElement(children, {
           ref: (node) => {
             parent.ref = node;
-          }          
+          }
         })
       : children;
 
     return visible === false ? null : (
       <Form.Item
-        label={label}
+        label={
+          tooltip ? (
+            <>
+              {label}
+              <Tooltip title={tooltip}>
+                <InfoCircleOutlined className="gx-form-item-tooltip" />
+              </Tooltip>
+            </>
+          ) : (
+            label
+          )
+        }
         name={name}
         validateTrigger={validateTrigger}
         {...rest}

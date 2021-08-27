@@ -25,12 +25,14 @@ import updateResourceState, { RESOURCE } from './updateResourceState';
 const resourceReducer = createResourceReducer('RESOURCE', [], {
   [RESOURCE_GET_TO_EDIT](state, action) {
     const newState = normalizeResourceState(state, action.resource);
+    const { readOnly = false } = action.payload || {};
+
     return {
       ...newState,
       [action.resource]: {
         ...newState[action.resource],
         ...action.payload,
-        readOnly: action.payload && action.payload.act === 'view'
+        readOnly
       }
     };
   },
@@ -41,7 +43,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
       [action.resource]: {
         ...state[action.resource],
         editing: !state[action.resource].readOnly,
-        action: RESOURCE_ACTION_EDIT, /* todo */
+        action: RESOURCE_ACTION_EDIT /* todo */,
         saving: false,
         resourceToEdit: action.payload.data.result
       }
@@ -90,7 +92,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
     return updateResourceState(state, action, RESOURCE, () => ({
       saving: false,
       editing: false,
-      action: null,
+      action: null
     }));
   },
 
@@ -118,7 +120,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
 
   [RESOURCE_CREATE_INITIALIZE](state, action) {
     const newState = normalizeResourceState(state, action.resource);
-
+    const { initialValues = {}, ...rest } = action.payload;
     return {
       ...newState,
       [action.resource]: {
@@ -126,7 +128,8 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         editing: true,
         saving: false,
         action: RESOURCE_ACTION_CREATE,
-        resourceToEdit: action.payload
+        resourceToEdit: initialValues,
+        ...rest
       }
     };
   },
@@ -170,7 +173,8 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         editing: false,
         action: null,
         saving: false,
-        readOnly: false
+        readOnly: false,
+        componentKey: null
       }
     };
   },
@@ -184,6 +188,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
 
   [RESOURCE_CURRENT_UNLOAD](state, action) {
     const resourceState = state[action.resource];
+    delete resourceState['componentKey'];
     delete resourceState[action.payload.currentAttr];
     return {
       ...state

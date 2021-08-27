@@ -178,8 +178,7 @@ const CrudContainer = (props) => {
       columnsAux.push({
         title: 'Ações',
         key: 'action',
-        align: 'right',
-        width: '150px',
+        align: 'right',        
         render: (text, record) =>
           ActionsComponent ? (
             <ActionsComponent

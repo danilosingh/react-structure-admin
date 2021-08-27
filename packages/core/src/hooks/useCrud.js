@@ -130,7 +130,7 @@ const useCrud = ({
   );
 
   const create = useCallback(
-    (params) => dispatch(resourceActions.initializeCreate(resource, params)),
+    (initialValues) => dispatch(resourceActions.initializeCreate(resource, initialValues)),
     [dispatch, resource]
   );
 
