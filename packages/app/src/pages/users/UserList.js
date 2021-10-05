@@ -1,11 +1,15 @@
 import React from 'react';
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Crud, useAuthContext } from 'react-structure-admin';
+import { Crud, useCrud } from 'react-structure-admin';
 import { currentUserGet } from '../../stores/users/userActions';
 import UserEdit from './UserEdit';
 import CustomUserEdit from './CustomUserEdit';
+
 const UserList = (props) => {
+  const { resource } = props;
+  var { data } = useCrud({ resource });
+  console.log(data);
   var dispatch = useDispatch();
   const { editingCurrentUser } = useSelector(
     (state) => state.resources.users || {}

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Drawer } from 'antd';
+import globalEvents from '../config/globalEvents';
 
 const DrawerContainer = ({
   title,
@@ -21,6 +22,17 @@ const DrawerContainer = ({
   const width =
     size && (size.includes('%') || size.includes('px')) ? size : undefined;
   const sizeClass = size && !width ? size : null;
+
+  useEffect(() => {
+    globalEvents.invokeEvents('drawerVisibleChanged', { visible });
+
+    return () => {
+      globalEvents.invokeEvents('drawerVisibleChanged', {
+        visible: false,
+        unloaded: true
+      });
+    };
+  }, [visible]);
 
   return (
     <Drawer

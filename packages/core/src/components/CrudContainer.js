@@ -151,7 +151,7 @@ const CrudContainer = (props) => {
       visible: editing,
       readOnly,
       saving,
-      action,
+      action,      
       data: resourceToEdit,
       createComponent: CreateComponent,
       editComponent: EditComponent

@@ -22,6 +22,7 @@ export const defaultResourceState = {
   loading: false,
   readOnly: false,
   loaded: false,
+  loadingEdition: false,
   resourceToEdit: {}
 };
 

@@ -26,12 +26,13 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
   [RESOURCE_GET_TO_EDIT](state, action) {
     const newState = normalizeResourceState(state, action.resource);
     const { readOnly = false } = action.payload || {};
-
+    
     return {
       ...newState,
       [action.resource]: {
         ...newState[action.resource],
         ...action.payload,
+        loadingEdition: true,
         readOnly
       }
     };
@@ -45,6 +46,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         editing: !state[action.resource].readOnly,
         action: RESOURCE_ACTION_EDIT /* todo */,
         saving: false,
+        loadingEdition: false,
         resourceToEdit: action.payload.data.result
       }
     };

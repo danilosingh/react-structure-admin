@@ -18,7 +18,9 @@ const Test = () => {
   return <h1>Teste</h1>;
 };
 
-const UserEdit = ({ data, ...rest }) => {
+const UserEdit = ({ data, loadingEdition, ...rest }) => {
+  console.log(loadingEdition);
+  console.log(rest);
   const submitHandle = ({ address, ...values }) => {
     return {
       ...values,

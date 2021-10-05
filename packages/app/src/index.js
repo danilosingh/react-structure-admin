@@ -9,6 +9,7 @@ import rootStore from './rootStore';
 import {
   authInitialState,
   configManager,
+  globalEvents,
   AuthContextProvider,
   RouteRedirect,
   Routes
@@ -47,6 +48,11 @@ const onBeforeRouteRender = ({ route }) => {
   }
   return null;
 };
+
+globalEvents.registerEvent('drawerVisibleChanged', (args) => {
+  
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>

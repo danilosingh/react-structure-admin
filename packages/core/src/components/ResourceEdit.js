@@ -80,6 +80,7 @@ const InternalEdit = (props) => {
         saving: data.saving,
         loading: data.loading,
         editing: data.editing,
+        loadingEdition: data.loadingEdition,
         readOnly: data.readOnly,
         setCurrent,
         visible: visible || data.visible || data.editing,

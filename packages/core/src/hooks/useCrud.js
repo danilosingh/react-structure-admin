@@ -119,10 +119,10 @@ const useCrud = ({
     [dispatch, resource, tenant, customFetch, JSON.stringify(queryParams)] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  const unload = useCallback(() => dispatch(resourceActions.unload(resource)), [
-    dispatch,
-    resource
-  ]);
+  const unload = useCallback(
+    () => dispatch(resourceActions.unload(resource)),
+    [dispatch, resource]
+  );
 
   const unloadCurrent = useCallback(
     () => dispatch(resourceActions.unloadCurrent(resource, currentAttr)),
@@ -130,7 +130,10 @@ const useCrud = ({
   );
 
   const create = useCallback(
-    (initialValues) => dispatch(resourceActions.initializeCreate(resource, initialValues)),
+    (initialValues, params) =>
+      dispatch(
+        resourceActions.initializeCreate(resource, initialValues, params)
+      ),
     [dispatch, resource]
   );
 

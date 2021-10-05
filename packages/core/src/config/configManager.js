@@ -38,8 +38,4 @@ export default class configManager {
   static getConfig() {
     return this.config;
   }
-
-  static getStorageKey(key){
-    this.getConfig().name
-  }
 }
