@@ -1,3 +1,3 @@
 Add dependency
 
-yarn workspace core add style-loader --dev
+yarn workspace core add react-helmet --dev --exact

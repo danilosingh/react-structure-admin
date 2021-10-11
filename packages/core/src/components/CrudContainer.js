@@ -3,6 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Form, Card, Row, Col, Button, Popconfirm, Table, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { RESOURCE_ACTION_CREATE } from '../store/actions';
 import configManager from '../config/configManager';
 import { CrudEditContextProvider } from './CrudEditContext';
@@ -28,7 +29,7 @@ const CrudEditWrapper = ({
 const CrudContainer = (props) => {
   const [delayedSearch, setDelayedSearch] = useState(null);
   const history = useHistory();
-  
+
   const {
     data: {
       items: dataSource,
@@ -141,7 +142,7 @@ const CrudContainer = (props) => {
     if (!data.editing || (!CreateComponent && !EditComponent)) {
       return null;
     }
-    
+
     const editingProps = {
       title: getEditingTitle(),
       resource,
@@ -151,7 +152,7 @@ const CrudContainer = (props) => {
       visible: editing,
       readOnly,
       saving,
-      action,      
+      action,
       data: resourceToEdit,
       createComponent: CreateComponent,
       editComponent: EditComponent
@@ -178,7 +179,7 @@ const CrudContainer = (props) => {
       columnsAux.push({
         title: 'Ações',
         key: 'action',
-        align: 'right',        
+        align: 'right',
         render: (text, record) =>
           ActionsComponent ? (
             <ActionsComponent
@@ -209,15 +210,19 @@ const CrudContainer = (props) => {
     return columnsAux;
   };
 
-  const { menu, title } = props;
+  const { menu, title, showDocumentTitle = true } = props;
   const loading = data ? data.loading : true;
   const columns = getColumns();
-  const {
-    size: defaultTableSize
-  } = configManager.getConfig().layout.list.table;
+  const { size: defaultTableSize } =
+    configManager.getConfig().layout.list.table;
 
   return (
     <>
+      {showDocumentTitle && (
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+      )}
       {HeaderComponent ? (
         <HeaderComponent
           {...props}

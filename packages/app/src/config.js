@@ -41,8 +41,9 @@ export default {
       routes: [
         {
           path: '/',
-          title: 'users',
+          title: 'Usuários',
           resource: 'users',
+          showDocumentTitle: false,
           singularTitle: 'Usuário',
           exact: true,
           component: (props) => <UserList {...props} />,
