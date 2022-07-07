@@ -11,6 +11,9 @@ const Crud = ({
   fixedQueryParams,
   defaultQueryParams,
   onBuildQueryParams,
+  tenant,
+  useQueryStringParams,
+  endpoint,
   ...rest
 }) => {
   const basePath = match ? match.path : '';
@@ -32,9 +35,12 @@ const Crud = ({
         resource,
         fetch,
         get,
+        tenant,
         fixedQueryParams,
         defaultQueryParams,
-        onBuildQueryParams
+        useQueryStringParams,
+        onBuildQueryParams,
+        endpoint
       })}
     />
   );

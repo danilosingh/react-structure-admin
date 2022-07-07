@@ -22,7 +22,8 @@ const useCrud = ({
   useQueryStringParams = true,
   defaultQueryParams,
   fixedQueryParams,
-  onBuildQueryParams
+  onBuildQueryParams,
+  endpoint
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -114,7 +115,13 @@ const useCrud = ({
       dispatch(
         customFetch
           ? customFetch(resource, queryParams, tenant)
-          : resourceActions.fetch(resource, queryParams, onSuccess, tenant)
+          : resourceActions.fetch(
+              resource,
+              queryParams,
+              onSuccess,
+              tenant,
+              endpoint
+            )
       ),
     [dispatch, resource, tenant, customFetch, JSON.stringify(queryParams)] // eslint-disable-line react-hooks/exhaustive-deps
   );
@@ -148,7 +155,14 @@ const useCrud = ({
       dispatch(
         customGet
           ? customGet(id, params)
-          : resourceActions.get(resource, id, params, onSuccess, tenant)
+          : resourceActions.get(
+              resource,
+              id,
+              params,
+              onSuccess,
+              tenant,
+              endpoint
+            )
       ),
     [dispatch, customGet, resource]
   );
@@ -160,7 +174,8 @@ const useCrud = ({
           resource,
           params,
           onSuccess || (() => setQueryParams({ page: 1 })),
-          tenant
+          tenant,
+          endpoint
         )
       ),
     [dispatch, resource, tenant, setQueryParams]
@@ -168,7 +183,16 @@ const useCrud = ({
 
   const update = useCallback(
     (id, params, onSuccess) =>
-      dispatch(resourceActions.update(resource, id, params, onSuccess, tenant)),
+      dispatch(
+        resourceActions.update(
+          resource,
+          id,
+          params,
+          onSuccess,
+          tenant,
+          endpoint
+        )
+      ),
     [dispatch, resource, tenant]
   );
 
@@ -179,7 +203,8 @@ const useCrud = ({
           resource,
           id,
           () => setQueryParams({ page: 1 }),
-          tenant
+          tenant,
+          endpoint
         )
       ),
     [dispatch, resource, tenant, setQueryParams]

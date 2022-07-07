@@ -42,7 +42,8 @@ export default {
         {
           path: '/',
           title: 'Usuários',
-          resource: 'users',
+          resource: 'custom-users',
+          endpoint: 'users',
           showDocumentTitle: false,
           singularTitle: 'Usuário',
           exact: true,
