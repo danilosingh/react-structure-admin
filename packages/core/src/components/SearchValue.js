@@ -27,7 +27,7 @@ const SearchValue = ({
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     total: 0,
-    pageSize: configManager.pageSize,
+    pageSize: configManager.getConfig().pageSize,
     current: 1,
     showSizeChanger: false,
     showLessItems: true
