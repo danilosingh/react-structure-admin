@@ -7,7 +7,6 @@ import {
   AUTH_REFRESH_TOKEN_FINISHED
 } from '../actions/authActionTypes';
 import authInitialState from '../../auth/authInitialState';
-import concatReducers from './concatReducers';
 
 const authReducer = createResourceReducer(
   'AUTH',

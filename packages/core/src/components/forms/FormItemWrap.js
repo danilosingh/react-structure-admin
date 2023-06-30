@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form, Tooltip } from 'antd';
+import { Form } from 'antd';
 import { formartOnlyNumber } from '../../util/formatters';
-import { InfoCircleOutlined } from '@ant-design/icons';
 
 class FormItemWrap extends React.Component {
   constructor(props) {
@@ -24,9 +23,7 @@ class FormItemWrap extends React.Component {
       children,
       autoFocus,
       whitespace,
-      name,
-      tooltip,
-      tooltipIcon,
+      name,      
       rules = [],
       ...rest
     } = this.props;
@@ -75,18 +72,7 @@ class FormItemWrap extends React.Component {
 
     return visible === false ? null : (
       <Form.Item
-        label={
-          tooltip ? (
-            <>
-              {label}
-              <Tooltip title={tooltip}>
-                <InfoCircleOutlined className="gx-form-item-tooltip" />
-              </Tooltip>
-            </>
-          ) : (
-            label
-          )
-        }
+        label={label}
         name={name}
         validateTrigger={validateTrigger}
         {...rest}

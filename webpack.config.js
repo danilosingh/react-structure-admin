@@ -28,6 +28,7 @@ module.exports = {
         'commonjs2 @fortawesome/fontawesome-svg-core',
       '@fortawesome/react-fontawesome': 'commonjs2 @fortawesome/react-fontawesome',
       'immutability-helper': 'commonjs2 immutability-helper',
+      'react-helmet': 'commonjs2 react-helmet',
       moment: 'commonjs2 moment',
       'react-dnd': 'commonjs2 react-dnd',
       'react-dnd-html5-backend': 'commonjs2 react-dnd-html5-backend',
