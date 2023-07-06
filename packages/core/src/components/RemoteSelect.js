@@ -25,6 +25,8 @@ class RemoteSelect extends React.Component {
     this.handleSearch = debounce(this.fetchData, 800);
     this.fethOnMount = props.fethOnMount;
     this.state = { ...initialState };
+    this.keyProp = props.keyProp ?? "id";
+    this.labelProp =  props.labelProp ?? "name";
     this.remoteSelect = React.createRef();
   }
 
@@ -59,9 +61,7 @@ class RemoteSelect extends React.Component {
       params = {},
       sorting,
       defaultSorting = true,
-      autoFocus,
-      keyProp = "id",
-      labelProp = "name",
+      autoFocus,     
       tenant,
       onFetching,
       onFetched
@@ -89,8 +89,8 @@ class RemoteSelect extends React.Component {
       onFetched?.(data.result);
       const { totalCount = 0, items = [] } = data.result;
       const newItems = items.map((unit) => ({
-        key: `${unit[keyProp]}`,
-        label: unit[labelProp] ?? unit.title,
+        key: `${unit[this.keyProp]}`,
+        label: unit[this.labelProp] ?? unit.title,
         item: unit
       }));
       this.setState((prevState) => ({
@@ -112,7 +112,7 @@ class RemoteSelect extends React.Component {
   };
 
   filterObjectByKey = (value, key) => {
-    return key === String(value[keyProp]);
+    return key === String(value[this.keyProp]);
   };
 
   getObject = (key) => {
