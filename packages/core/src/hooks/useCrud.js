@@ -219,20 +219,18 @@ const useCrud = ({
   }, [dispatch, resource]);
 
   const paginationChanged = (current) => {
-    let params;
-    if (location.search && location.search !== '') {
+    let params = {};
+
+    if (useQueryStringParams && location.search && location.search !== '') {
       params = qs.parse(location.search);
-
-      if (params.page) {
-        delete params.page;
-      }
     }
 
-    if (current > 1) {
-      params = { ...queryParams, ...params, page: current };
-    }
-
-    setQueryParams(params);
+    setQueryParams({
+      ...queryParams,
+      ...params,
+      page: current,
+      ...(fixedQueryParams ?? {})
+    });
   };
 
   return {
