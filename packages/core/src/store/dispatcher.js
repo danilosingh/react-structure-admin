@@ -47,6 +47,7 @@ export const dispatchResouceAction = async ({
   payload,
   actionType,
   effect,
+  onAfterEffect,
   onSuccess,
   onFail
 }) => {
@@ -54,6 +55,10 @@ export const dispatchResouceAction = async ({
 
   const model = await effect();
   const isError = model instanceof HttpErrorResponseModel;
+  
+  if (onAfterEffect) {
+    onAfterEffect(model, isError);
+  }
 
   const fineshedAction = createAction(
     `${actionType}_FINISHED`,

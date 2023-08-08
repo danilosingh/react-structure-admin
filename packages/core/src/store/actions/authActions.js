@@ -39,8 +39,10 @@ export const refreshToken = (params) => async (dispatch) => {
     resource: 'auth',
     actionType: AUTH_REFRESH_TOKEN,
     effect: async () => api.post('/auth/refresh-token', params),
-    onSuccess: ({ data }) => {
-      onAuthSuccess(data);
+    onAfterEffect: ({ data }, isError) => {
+      if (!isError) {
+        onAuthSuccess(data);
+      }
     }
   });
 };
@@ -51,8 +53,10 @@ export const login = (params) => async (dispatch) => {
     resource: 'auth',
     actionType: LOGIN_REQUEST,
     effect: async () => api.post('/auth/authenticate', params),
-    onSuccess: ({ data }) => {
-      onAuthSuccess(data);
+    onAfterEffect: ({ data }, isError) => {
+      if (!isError) {
+        onAuthSuccess(data);
+      }
     }
   });
 };
@@ -63,13 +67,15 @@ export const changeLogin = (params) => async (dispatch) => {
     resource: 'auth',
     actionType: LOGIN_REQUEST,
     effect: async () => api.put('/auth', params),
-    onSuccess: ({ data }) => {
-      onAuthSuccess(data);
+    onAfterEffect: ({ data }, isError) => {
+      if (!isError) {
+        onAuthSuccess(data);
+      }
     }
   });
 };
 
-export const logout = () => (dispatch) => {  
+export const logout = () => (dispatch) => {
   localStorage.removeItem('auth_data');
   localStorage.removeItem('auth_accesstoken');
   localStorage.removeItem('auth_refreshtoken');

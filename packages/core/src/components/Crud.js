@@ -13,7 +13,7 @@ const Crud = ({
   onBuildQueryParams,
   tenant,
   useQueryStringParams,
-  endpoint,
+  endpoint,  
   ...rest
 }) => {
   const basePath = match ? match.path : '';
@@ -29,7 +29,7 @@ const Crud = ({
   return (
     <CrudContainer
       basePath={basePath}
-      resource={resource}
+      resource={resource}      
       {...rest}
       {...useCrud({
         resource,

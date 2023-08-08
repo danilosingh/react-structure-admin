@@ -58,6 +58,7 @@ const CrudContainer = (props) => {
     children,
     basePath,
     showHeader = true,
+    table = {},
     tableSize,
     headerComponent: HeaderComponent,
     editComponent: EditComponent,
@@ -283,11 +284,12 @@ const CrudContainer = (props) => {
               {columns && columns.length > 0 ? (
                 <Table
                   {...configManager.getConfig().layout.list.table}
+                  {...table}
                   loading={loading}
                   rowKey={(record) => record.id}
                   dataSource={dataSource}
                   pagination={pagination}
-                  onChange={handleTableChange}
+                  onChange={handleTableChange}                  
                   columns={columns}
                   showHeader={showHeader}
                   size={tableSize ?? defaultTableSize}
