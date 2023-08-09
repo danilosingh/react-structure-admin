@@ -76,16 +76,18 @@ export const changeLogin = (params) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
+
   localStorage.removeItem('auth_data');
   localStorage.removeItem('auth_accesstoken');
   localStorage.removeItem('auth_refreshtoken');
   localStorage.removeItem('tenantId');
 
-  dispatch({ type: AUTH_LOGOUT });
+
+  dispatch(createAction(AUTH_LOGOUT, 'auth'));
 
   if (axios) {
     delete axios.defaults.headers.common['Authorization'];
-  }
+  }  
 };
 
 export const refreshAuthenticatedUser = (data) => (dispatch) => {

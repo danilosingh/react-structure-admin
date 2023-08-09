@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { useAuthContext, configManager } from 'react-structure-admin';
 
 const SignIn = () => {
+  console.log("SignIn");
+  console.log(useAuthContext());
   const { isAuthenticated, login, user } = useAuthContext();
   const [visiblePassword, setVisiblePassword] = useState(true);
   const [inputPassword, setInputPassword] = useState('');
@@ -21,7 +23,7 @@ const SignIn = () => {
       password: e.target.password.value
     });
   };
-
+  console.log(isAuthenticated);
   const redirectAuthenticatedtUser = () => {
     const { roles = [] } = configManager.getConfig();
     const role =
@@ -32,7 +34,7 @@ const SignIn = () => {
       return <Redirect to={role.defaultPath} />;
     }
 
-    return <Redirect to="/p" />;
+    return <Redirect to="/pxxx" />;
   };
 
   if (isAuthenticated) {

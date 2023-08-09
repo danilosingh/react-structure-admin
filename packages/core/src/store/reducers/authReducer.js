@@ -1,4 +1,5 @@
 import createResourceReducer from './createResourceReducer';
+import concatReducers from './concatReducers';
 
 import {
   LOGIN_REQUEST_FINISHED,
@@ -12,7 +13,7 @@ const authReducer = createResourceReducer(
   'AUTH',
   { ...authInitialState },
   {
-    [LOGIN_REQUEST_FINISHED](state, { payload }) {
+    [LOGIN_REQUEST_FINISHED](state, { payload }) {      
       const now = new Date();
       now.setSeconds(now.getSeconds() + payload.data.expireInSeconds);
       return {
@@ -33,12 +34,7 @@ const authReducer = createResourceReducer(
     },
 
     [AUTH_LOGOUT](state) {
-      return {
-        ...state,
-        user: null,
-        expirationDate: null,
-        accessToken: null,
-        tenant: null,
+      return {                
         permissions: [],
         claims: []
       };
@@ -59,4 +55,4 @@ const authReducer = createResourceReducer(
   }
 );
 
-export default authReducer;
+export default concatReducers([authReducer], authInitialState);

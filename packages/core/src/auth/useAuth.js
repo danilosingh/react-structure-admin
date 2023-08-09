@@ -12,9 +12,10 @@ const useAuth = (getKey = null) => {
     [data]
   );
 
-  const login = useCallback((params) => dispatch(authActions.login(params)), [
-    dispatch
-  ]);
+  const login = useCallback(
+    (params) => dispatch(authActions.login(params)),
+    [dispatch]
+  );
 
   const refresh = useCallback(
     (params) => dispatch(authActions.refreshToken(params)),
@@ -53,9 +54,13 @@ const useAuth = (getKey = null) => {
     [data]
   );
 
-  const hasRole = useCallback((...roles) => roles.includes(data.user.role), [
-    data
-  ]);
+  const hasRole = useCallback(
+    (...roles) => {
+      const userRoles = user.role ? [user.role] : user.roles || [];
+      return roles.findIndex((c) => userRoles.includes(c)) >= 0;
+    },
+    [data]
+  );
 
   const isAdmin = () => {
     return data.user && data.user.role === 'Admin';

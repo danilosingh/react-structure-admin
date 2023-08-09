@@ -5,6 +5,7 @@ import AppContainer2 from './containers/app/AppContainer2';
 import SignIn from './pages/signin/SignIn';
 import TopicList from './pages/topics/TopicList';
 import UserList from './pages/users/UserList';
+import SignOut from './pages/SignOut/SignOut';
 
 export default {
   roles: [
@@ -18,6 +19,7 @@ export default {
       path: '/a',
       component: (props) => <AdminContainer {...props} />,
       roles: ['Admin'],
+      features: ['UserManagement'],
       routes: [
         {
           path: '/users',
@@ -34,16 +36,21 @@ export default {
       exact: true
     },
     {
+      path: '/signout',
+      component: (props) => <SignOut {...props} />,
+      exact: true
+    },
+    {
       path: '/',
       component: (props) => {
         return <AppContainer {...props} />;
       },
       routes: [
         {
-          path: '/',
-          title: 'Usuários',
-          resource: 'custom-users',
+          path: '/users',
+          title: 'Usuários',          
           endpoint: 'users',
+          features: ['UserManagement'],
           showDocumentTitle: false,
           singularTitle: 'Usuário',
           exact: true,

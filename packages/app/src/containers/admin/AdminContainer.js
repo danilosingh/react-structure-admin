@@ -5,7 +5,7 @@ import { Routes } from 'react-structure-admin';
 const { Content } = Layout;
 
 const AdminContainer = (props) => {
-  const { match, routes, roles, basePath } = props;
+  const { match, routes, roles, features, basePath } = props;
 
   return (
     <Layout className="gx-app-layout">
@@ -15,6 +15,7 @@ const AdminContainer = (props) => {
             match={match}
             routes={routes}
             roles={roles}
+            features={features}
             basePath={basePath}
             isContainer
           />

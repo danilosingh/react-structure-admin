@@ -8,7 +8,7 @@ import SimpleRoute from './SimpleRoute';
 
 const WrappedRoute = (props) => {
   const { route, isContainer, onBeforeRouteRender } = props;
-  const { roles = [] } = route;
+  const { roles = [], features = [] } = route;
   let { basePath } = props;
 
   basePath = buildPath(basePath, route.path);
@@ -24,7 +24,7 @@ const WrappedRoute = (props) => {
     }
     return <route.component {...route} basePath={basePath} {...routeProps} />;
   };
-  
+
   const isContainerAux = route.isContainer ?? isContainer;
 
   return route.redirectTo ? (
@@ -35,8 +35,9 @@ const WrappedRoute = (props) => {
     />
   ) : (
     <>
-      {roles && roles.length > 0 ? (
+      {(roles && roles.length > 0) || (features && features.length > 0) ? (
         <RestrictedRoute
+          features={features}
           roles={roles}
           key={basePath}
           exact={route.exact || false}

@@ -42,10 +42,7 @@ configManager.setConfig({
 });
 const history = createBrowserHistory();
 const store = rootStore(initialState, history);
-const onBeforeRouteRender = ({ route }) => {
-  if (route.path != '/' && route.path != '/signin') {
-    return <RouteRedirect to="/signin" />;
-  }
+const onBeforeRouteRender = ({ route }) => {  
   return null;
 };
 
