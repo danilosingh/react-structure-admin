@@ -7,8 +7,22 @@ import {
 } from './actions/resourceActionTypes';
 
 const handleError = (result) => {
-  if (result && result.message) {
-    message.error(result.message);
+  if (result) {    
+    if (result.errors && result.errors.length > 0) {      
+      message.error({
+        content: (
+          <div>
+          {result.errors.map((c) => (
+            <p>{c.message}</p>
+          ))}
+        </div>
+        ),        
+        className: 'gx-ant-error-message'
+      });
+
+    } else if (result.message) {
+      message.error(result.message);
+    }
   }
 };
 
@@ -55,7 +69,7 @@ export const dispatchResouceAction = async ({
 
   const model = await effect();
   const isError = model instanceof HttpErrorResponseModel;
-  
+
   if (onAfterEffect) {
     onAfterEffect(model, isError);
   }
