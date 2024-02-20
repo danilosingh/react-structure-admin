@@ -99,14 +99,16 @@ const RemoteSelectCrud = ({
     }
   };
 
-  const EditComponentWrap = useMemo(() =>
-    ResourceEdit.create(EditComponent, {
-      resource,
-      title: `${action !== RESOURCE_ACTION_EDIT ? 'Novo ' : 'Editar '} ${
-        resourceTitle ? resourceTitle?.toLowerCase() : ''
-      }`,
-      onCreateOrUpdateSuccess: handleCreateOrUpdateSuccess
-    })
+  const EditComponentWrap = useMemo(
+    () =>
+      ResourceEdit.create(EditComponent, {
+        resource,
+        title: `${action !== RESOURCE_ACTION_EDIT ? 'Novo ' : 'Editar '} ${
+          resourceTitle ? resourceTitle?.toLowerCase() : ''
+        }`,
+        onCreateOrUpdateSuccess: handleCreateOrUpdateSuccess
+      }),
+    [stateComponentKey]
   );
 
   return (
