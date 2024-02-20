@@ -22,13 +22,15 @@ function delay(duration = 250) {
 
 function fillInErrorWithDefaults(error, request) {
   const model = new HttpErrorResponseModel();
-
   model.status = error.status || 0;
   model.message =
     error.message || 'Ocorreu um erro inesperado ao processar sua solicitação';
-  model.errors = error.errors.length
-    ? error.errors
-    : [{ message: 'Ocorreu um erro inesperado ao processar sua solicitação' }];
+  model.errors =
+    error.errors.length > 0
+      ? error.errors
+      : [
+          { message: 'Ocorreu um erro inesperado ao processar sua solicitação' }
+        ];
   model.url = error.url || request.url;
   model.raw = error.raw;
 
@@ -93,7 +95,9 @@ export async function performRequest(restRequest, config) {
       // eslint-disable-next-line no-prototype-builtins
       const errors = data.hasOwnProperty('errors')
         ? [...data.errors]
-        : [{ message: statusText }];
+        : statusText && statusText !== ''
+        ? [{ message: statusText }]
+        : [];
 
       return fillInErrorWithDefaults(
         {
@@ -111,12 +115,12 @@ export async function performRequest(restRequest, config) {
     }
     if (error.request) {
       const { status, statusText, responseURL } = error.request;
-
+      
       return fillInErrorWithDefaults(
         {
           status,
           message: statusText,
-          errors: [{ message: statusText }],
+          errors: statusText !== '' ? [{ message: statusText }] : [],
           url: responseURL,
           raw: error.request
         },
