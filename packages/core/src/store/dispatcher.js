@@ -1,3 +1,4 @@
+import React from 'react';
 import { message } from 'antd';
 import HttpErrorResponseModel from '../api/HttpErrorResponseModel';
 import {
@@ -6,20 +7,19 @@ import {
   RESOURCE_DELETE_FINISHED
 } from './actions/resourceActionTypes';
 
-const handleError = (result) => {
-  if (result) {    
-    if (result.errors && result.errors.length > 0) {      
+const handleError = (result) => { 
+  if (result) {
+    if (result.errors && result.errors.length > 0) {
       message.error({
         content: (
           <div>
-          {result.errors.map((c) => (
-            <p>{c.message}</p>
-          ))}
-        </div>
-        ),        
+            {result.errors.map((c) => (
+              <p>{c.message}</p>
+            ))}
+          </div>
+        ),
         className: 'gx-ant-error-message'
       });
-
     } else if (result.message) {
       message.error(result.message);
     }
