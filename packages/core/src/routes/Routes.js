@@ -76,21 +76,27 @@ const Routes = (props) => {
     onBeforeRouteRender
   } = props;
 
-  const filter = ({ features = [] }) => {
-    const userHasFeature = () => {
-      return (
-        features.length === 0 ||
-        features.findIndex((c) => userFeatures.includes(c)) >= 0
-      );
-    };
-
-    return userHasFeature();
+  const userHasFeature = ({ features = [] }) => {
+    return (
+      features.length === 0 ||
+      features.findIndex((c) => userFeatures.includes(c)) >= 0
+    );
   };
+  
+  const routeMap = {};
 
-  const newRoutes = [
-    ...routes.filter((c) => !c.redirectTo),
-    routes.find((c) => c.redirectTo && filter(c))
-  ];
+  routes.forEach((route) => {
+    if (!route.redirectTo) {
+      routeMap[route.path] = route;
+      return;
+    }
+
+    if (route.redirectTo && !routeMap[route.path] && userHasFeature(route)) {
+      routeMap[route.path] = route;
+    }
+  });
+
+  const newRoutes = Object.values(routeMap);
 
   return (
     <Switch>
