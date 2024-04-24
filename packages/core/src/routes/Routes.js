@@ -1,13 +1,11 @@
 import React, { Suspense } from 'react';
 import { Switch } from 'react-router-dom';
-
-import {
-  SimpleRoute,
-  RouteRedirect,
-  RestrictedRoute,
-  buildPath,
-  useAuthContext
-} from 'react-structure-admin';
+import { logDebug } from '../util/logger';
+import { buildPath } from './util/buildPath';
+import RestrictedRoute from './RestrictedRoute';
+import RouteRedirect from './RouteRedirect';
+import SimpleRoute from './SimpleRoute';
+import { useAuthContext } from '../auth';
 
 const WrappedRoute = (props) => {
   const { route, isContainer, onBeforeRouteRender } = props;
@@ -15,6 +13,8 @@ const WrappedRoute = (props) => {
   let { basePath } = props;
 
   basePath = buildPath(basePath, route.path);
+
+  logDebug(`ROUTE: ${basePath}.`);
 
   const renderRoute = (routeProps) => {
     if (onBeforeRouteRender) {
