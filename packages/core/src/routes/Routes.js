@@ -1,10 +1,13 @@
 import React, { Suspense } from 'react';
 import { Switch } from 'react-router-dom';
-import { logDebug } from '../util/logger';
-import { buildPath } from './util/buildPath';
-import RestrictedRoute from './RestrictedRoute';
-import RouteRedirect from './RouteRedirect';
-import SimpleRoute from './SimpleRoute';
+
+import {
+  SimpleRoute,
+  RouteRedirect,
+  RestrictedRoute,
+  buildPath,
+  useAuthContext
+} from 'react-structure-admin';
 
 const WrappedRoute = (props) => {
   const { route, isContainer, onBeforeRouteRender } = props;
@@ -12,8 +15,6 @@ const WrappedRoute = (props) => {
   let { basePath } = props;
 
   basePath = buildPath(basePath, route.path);
-
-  logDebug(`ROUTE: ${basePath}.`);
 
   const renderRoute = (routeProps) => {
     if (onBeforeRouteRender) {
@@ -27,13 +28,17 @@ const WrappedRoute = (props) => {
 
   const isContainerAux = route.isContainer ?? isContainer;
 
-  return route.redirectTo ? (
-    <SimpleRoute
-      basePath={basePath}
-      route={route}
-      render={() => <RouteRedirect to={route.redirectTo} />}
-    />
-  ) : (
+  if (route.redirectTo) {
+    return (
+      <SimpleRoute
+        basePath={basePath}
+        route={route}
+        render={() => <RouteRedirect to={route.redirectTo} />}
+      />
+    );
+  }
+
+  return (
     <>
       {(roles && roles.length > 0) || (features && features.length > 0) ? (
         <RestrictedRoute
@@ -62,6 +67,7 @@ const WrappedRoute = (props) => {
 };
 
 const Routes = (props) => {
+  const { features: userFeatures = [] } = useAuthContext();
   const {
     routes = [],
     roles = [],
@@ -70,10 +76,26 @@ const Routes = (props) => {
     onBeforeRouteRender
   } = props;
 
+  const filter = ({ features = [] }) => {
+    const userHasFeature = () => {
+      return (
+        features.length === 0 ||
+        features.findIndex((c) => userFeatures.includes(c)) >= 0
+      );
+    };
+
+    return userHasFeature();
+  };
+
+  const newRoutes = [
+    ...routes.filter((c) => !c.redirectTo),
+    routes.find((c) => c.redirectTo && filter(c))
+  ];
+
   return (
     <Switch>
       <Suspense fallback={<div>Carregando...</div>}>
-        {routes.map((route) => (
+        {newRoutes.map((route) => (
           <WrappedRoute
             key={`wrapped_route_${basePath}_${route.path}`}
             route={route}
