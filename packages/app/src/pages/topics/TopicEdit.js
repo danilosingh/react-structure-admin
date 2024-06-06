@@ -9,6 +9,12 @@ const TopicEdit = ({ data, ...rest }) => {
         <FormItemWrap label="Nome" name="name" required>
           <Input />
         </FormItemWrap>
+        <FormItemWrap label="Modelo NF" name="type" required>
+          <Input />
+        </FormItemWrap>
+        <FormItemWrap label="Teste" name="teste" required>
+          <Input />
+        </FormItemWrap>
       </Form>
     </DrawerEdit>
   );
