@@ -13,7 +13,7 @@ const RemoteSelectCrud = ({
   editComponent: EditComponent,
   resource,
   textPropName,
-  prepareInitialValues,
+  initialValues,
   resourceTitle,
   enableEdit = true,
   onChange,
@@ -33,14 +33,14 @@ const RemoteSelectCrud = ({
   const [text, setText] = useState(null);
   const [allowShow, setAllowShow] = useState(true);
 
-  const handleCreateInitialValues = (text) => {
-    prepareInitialValues = prepareInitialValues ?? {};
+  const prepareInitialValues = (text) => {
+    initialValues = initialValues ?? {};
 
     if (textPropName) {
-      prepareInitialValues = { ...prepareInitialValues, [textPropName]: text };
+      initialValues = { ...initialValues, [textPropName]: text };
     }
 
-    return prepareInitialValues;
+    return initialValues;
   };
 
   const handleAddClick = () => {
@@ -49,7 +49,7 @@ const RemoteSelectCrud = ({
     setText(null);
     handleChange({});
     setTimeout(() => {
-      create(handleCreateInitialValues(text), { componentKey });
+      create(prepareInitialValues(text), { componentKey });
     }, 500);
   };
 

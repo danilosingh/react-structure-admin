@@ -89,7 +89,7 @@ const UserEdit = ({ data, loadingEdition, ...rest }) => {
           <RemoteSelectCrud
             resource="topics"
             textPropName="name"
-            prepareInitialValues={{ type: 'serviceInvoice', teste: 'testando' }}
+            initialValues={{ type: 'serviceInvoice', teste: 'testando' }}
             resourceTitle="Tópico"
             onChange={onChange}
             other="aaaa"
