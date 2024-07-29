@@ -16,7 +16,7 @@ const RemoteSelectCrud = ({
   initialValues,
   resourceTitle,
   enableEdit = true,
-  enableAdd = true,
+  addEnabled = true,
   onChange,
   value,
   onCreateOrUpdate,
@@ -61,7 +61,7 @@ const RemoteSelectCrud = ({
 
   const notFoundRender = () => {
     return (
-      enableAdd &&
+      addEnabled &&
       allowShow && (
         <Button
           className="gx-remote-select-crud-add-button"

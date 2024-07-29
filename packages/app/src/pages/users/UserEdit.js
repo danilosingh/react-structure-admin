@@ -94,7 +94,7 @@ const UserEdit = ({ data, loadingEdition, ...rest }) => {
             onChange={onChange}
             other="aaaa"
             editComponent={TopicEdit}
-            enableAdd={false}
+            addEnabled={false}
           />
         </FormItemWrap>
         <FormItemWrap name={['topic']} label="Tópico">
