@@ -19,6 +19,7 @@ import ConfirmButton from './ConfirmButton';
 import AuditInfo from './AuditInfo';
 import LazyComponent from './LazyComponent';
 import SearchValue from './SearchValue';
+import Pagination from './Pagination';
 import Crud from './Crud';
 import DrawerEdit from './DrawerEdit';
 import DrawerContainer from './DrawerContainer';
@@ -51,6 +52,7 @@ export {
   AuditInfo,
   LazyComponent,
   SearchValue,
+  Pagination,
   DrawerEdit,
   DrawerContainer,
   CrudEditContext,

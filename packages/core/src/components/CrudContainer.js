@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import { RESOURCE_ACTION_CREATE } from '../store/actions';
 import configManager from '../config/configManager';
 import { CrudEditContextProvider } from './CrudEditContext';
+import Pagination from './Pagination';
 
 const CrudEditWrapper = ({
   action,
@@ -167,6 +168,17 @@ const CrudContainer = (props) => {
     paginationChanged(tablePagination.current);
   };
 
+  const handlePageChange = (isPrev = false) => {
+    const { paginationChanged } = props;
+
+    if (isPrev) {
+      paginationChanged(pagination.current - 1);
+      return;
+    }
+
+    paginationChanged(pagination.current + 1);
+  };
+
   const getColumns = () => {
     const { columns } = props;
 
@@ -282,18 +294,27 @@ const CrudContainer = (props) => {
           <Col span={24}>
             <Card className="gx-card">
               {columns && columns.length > 0 ? (
-                <Table
-                  {...configManager.getConfig().layout.list.table}
-                  {...table}
-                  loading={loading}
-                  rowKey={(record) => record.id}
-                  dataSource={dataSource}
-                  pagination={pagination}
-                  onChange={handleTableChange}                  
-                  columns={columns}
-                  showHeader={showHeader}
-                  size={tableSize ?? defaultTableSize}
-                />
+                <>
+                  <Table
+                    {...configManager.getConfig().layout.list.table}
+                    {...table}
+                    loading={loading}
+                    rowKey={(record) => record.id}
+                    dataSource={dataSource}
+                    pagination={pagination.total == null ? false : pagination}
+                    onChange={handleTableChange}
+                    columns={columns}
+                    showHeader={showHeader}
+                    size={tableSize ?? defaultTableSize}
+                  />
+                  {pagination.total == null && (
+                    <Pagination
+                      onClickPrev={() => handlePageChange(true)}
+                      onClickNext={() => handlePageChange()}
+                      pagination={pagination}
+                    />
+                  )}
+                </>
               ) : (
                 React.cloneElement(children, {
                   dataSource,

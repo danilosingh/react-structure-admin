@@ -26,7 +26,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
   [RESOURCE_GET_TO_EDIT](state, action) {
     const newState = normalizeResourceState(state, action.resource);
     const { readOnly = false } = action.payload || {};
-    
+
     return {
       ...newState,
       [action.resource]: {
@@ -154,7 +154,11 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         pagination: {
           ...newState[action.resource].pagination,
           total: action.payload.data.result.totalCount,
-          current: Number(action.payload.config.params.page) || 1
+          current: Number(action.payload.config.params.page) || 1,
+          hasNext: action.payload.data.result.hasNext,
+          showTotal: action.payload.data.result.totalCount
+            ? newState[action.resource].pagination.showTotal
+            : false
         },
         ...action.payload.data.result,
         queryParams: action.payload.config.params,
