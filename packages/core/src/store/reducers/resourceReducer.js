@@ -154,6 +154,7 @@ const resourceReducer = createResourceReducer('RESOURCE', [], {
         pagination: {
           ...newState[action.resource].pagination,
           total: action.payload.data.result.totalCount,
+          pageSize: action.payload.data.result.pageSize,
           current: Number(action.payload.config.params.page) || 1,
           hasNext: action.payload.data.result.hasNext,
           showTotal: action.payload.data.result.totalCount
